@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +45,9 @@ public class customAdapter extends ArrayAdapter<examsetupinfo> {
         TextView itemFour=view.findViewById(R.id.item_four);
         TextView itemFive=view.findViewById(R.id.item_five);
         TextView itemSix=view.findViewById(R.id.item_six);
+
+        ImageButton ExamDelete=view.findViewById(R.id.delete);
+        ImageButton ExamEdit=view.findViewById(R.id.edit);
 
         itemOne.setText("Exam Name: "+examinfo.getExamsetupName());
         itemTwo.setText("Date: "+examinfo.getExamsetupDate());
