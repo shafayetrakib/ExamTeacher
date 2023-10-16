@@ -56,6 +56,8 @@ public class customAdapter extends ArrayAdapter<examsetupinfo> {
         itemFive.setText("Duration:"+examinfo.getExamsetupDuration());
 
 
+
+
         return view;
     }
 }

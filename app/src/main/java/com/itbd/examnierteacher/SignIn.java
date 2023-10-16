@@ -34,6 +34,7 @@ import com.itbd.examnierteacher.fragment.DashFragment;
 
 public class SignIn extends AppCompatActivity {
     private static final String FILE_NAME = "MyFile";
+    public static final String SHEARD_PREFS="SheadrPrefs";
     EditText passwordSignin,emailSignin;
     TextView mainforgot,signuptext;
     ImageView visiablity;
@@ -145,6 +146,8 @@ public class SignIn extends AppCompatActivity {
                     return;
                 }
                 progressBar.setVisibility(view.VISIBLE);
+
+
                 mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

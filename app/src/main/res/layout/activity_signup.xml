@@ -108,20 +108,35 @@
         android:background="@drawable/edittext_boxshape"
         android:paddingStart="13dp"/>
 
-        <EditText
-            android:id="@+id/auto_password"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="15dp"
-            android:inputType="textPassword"
-            android:textColorHint="#716D6D"
-            android:drawableLeft="@drawable/baseline_lock_24"
-            android:hint="Double Click You Will Get a Password"
-            android:paddingStart="15dp"
-            android:textColor="@color/black"
-            android:gravity="center"
+            android:orientation="horizontal"
             android:background="@drawable/edittext_boxshape"
-            />
+            android:layout_marginTop="15dp"
+            >
+            <EditText
+                android:id="@+id/auto_password"
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:hint="Double Click You will Get Password"
+                android:textColorHint="#FF716D6D"
+                android:inputType="textPassword"
+                android:background="@drawable/paasswordedit_boxshape"
+                android:drawableLeft="@drawable/baseline_lock_24"
+                android:drawablePadding="10dp"
+                android:paddingStart="7dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="7dp"
+                />
+            <ImageView
+                android:id="@+id/pass_invisi"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:src="@drawable/invisi_eye"
+                android:layout_marginTop="2dp"
+                />
+        </LinearLayout>
 
 
         <androidx.appcompat.widget.AppCompatButton

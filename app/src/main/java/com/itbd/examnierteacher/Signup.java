@@ -9,12 +9,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +39,7 @@ public class Signup extends AppCompatActivity {
     TextView backTwo,signintext;
     Spinner courseName;
     Button signUp;
-
+    ImageView visiablitySignup;
     String [] courseSelect;
 
     DatabaseReference databaseReference;
@@ -58,7 +61,7 @@ public class Signup extends AppCompatActivity {
         backTwo = findViewById(R.id.backtwo);
         signintext=findViewById(R.id.signintext);
         autoPassword=findViewById(R.id.auto_password);
-
+        visiablitySignup=findViewById(R.id.pass_invisi);
 
         //For auto Genarate Password
         autoPassword.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +92,19 @@ public class Signup extends AppCompatActivity {
         courseSelect =getResources().getStringArray(R.array.course);
         ArrayAdapter coursename= new ArrayAdapter<String>(Signup.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,courseSelect);
         courseName.setAdapter(coursename);
-      //valid every Edit text field
+        //Hide or show password
+        visiablitySignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(autoPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    autoPassword.setTransformationMethod(new PasswordTransformationMethod());
+                    visiablitySignup.setImageResource(R.drawable.invisi_eye);
+                }else {
+                    autoPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    visiablitySignup.setImageResource(R.drawable.visi_eye);
+                }
+            }
+        });
 
 
         //working on Signup Button
