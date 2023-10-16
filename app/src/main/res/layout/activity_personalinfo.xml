@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".personalinfo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/background_shape"
+        android:layout_height="150dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Your Infromation"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="60dp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        >
+        <EditText
+            android:id="@+id/edit_fullname"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:inputType="text"
+            android:hint="Full Name"
+            android:paddingStart="20dp"
+            android:background="@drawable/edittext_boxshape"/>
+        <EditText
+            android:id="@+id/edit_email"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:inputType="textEmailAddress"
+            android:hint="Email"
+            android:paddingStart="20dp"
+            android:background="@drawable/edittext_boxshape"/>
+        <EditText
+            android:id="@+id/edit_phone"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:inputType="phone"
+            android:hint="Phone"
+            android:paddingStart="20dp"
+            android:background="@drawable/edittext_boxshape"/>
+        <EditText
+            android:id="@+id/edit_per_addresss"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:inputType="text"
+            android:hint="permanent Address"
+            android:paddingStart="20dp"
+            android:background="@drawable/edittext_boxshape"/>
+        <EditText
+            android:id="@+id/edit_pre_addresss"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:inputType="text"
+            android:hint="present Address"
+            android:paddingStart="20dp"
+            android:background="@drawable/edittext_boxshape"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_saveinfo"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:text="Save"
+            android:background="@drawable/buttoneffect"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textAllCaps="false"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "25733530591",
+    "project_id": "examnirteacher",
+    "storage_bucket": "examnirteacher.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25733530591:android:10420634509bee91edba6a",
+        "android_client_info": {
+          "package_name": "com.itbd.examnierteacher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL4htGYIx0yFMd2YpaABQfKuzTTEm871A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

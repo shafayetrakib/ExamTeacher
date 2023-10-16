@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/exambox_shape"
+        android:padding="20dp">
+    <TextView
+        android:id="@+id/item_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black_pr"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/item_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black_pr"
+        android:textSize="19sp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/item_three"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black_pr"
+        android:textSize="18sp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/item_four"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black_pr"
+        android:textSize="18sp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/item_five"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black_pr"
+        android:textSize="18sp"
+        android:layout_marginTop="6dp"
+        />
+    <TextView
+        android:id="@+id/item_six"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/black_pr"
+        android:textSize="18sp"
+
+        />
+    </LinearLayout>
+
+
+</LinearLayout>

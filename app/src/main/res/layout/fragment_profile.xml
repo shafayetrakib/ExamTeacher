@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".fragment.ProfileFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="@drawable/profilebackground_shape"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp">
+
+
+        <ImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_person_24"
+            />
+            <TextView
+                android:id="@+id/teacher_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shafayet Hossen Rakib"
+                android:textSize="25sp"
+                android:textColor="@color/blue_pr"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:paddingStart="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teacher"
+                android:textSize="20sp"
+                android:textColor="#87817F"
+                android:layout_marginTop="5dp"
+                android:paddingStart="10dp"
+                />
+
+        </LinearLayout>
+
+            <ImageButton
+               
+                android:id="@+id/btn_logout"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:src="@drawable/baseline_logout_24"
+                android:background="@drawable/logout_button"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="40dp"/>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_marginTop="231dp">
+
+
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:background="@drawable/personalinfo">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Personal Information"
+                    android:textSize="22sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"/>
+                <ImageButton
+                    android:id="@+id/personalinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="90dp"
+                    android:src="@drawable/baseline_navigate_next_24"
+                    android:backgroundTint="#1F0186E4"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change Password"
+                    android:textSize="22sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"/>
+                <ImageButton
+                    android:id="@+id/changepassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="119dp"
+                    android:src="@drawable/baseline_navigate_next_24"
+                    android:backgroundTint="#1F0186E4"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

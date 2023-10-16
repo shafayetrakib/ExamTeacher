@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".examset">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/background_shape">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Exam Setup"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginTop="55dp"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/edt_examsetupname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Exam Name"
+            android:paddingStart="20dp"
+            android:textColorHint="#716D6D"
+            android:inputType="text"
+            android:background="@drawable/edittext_boxshape"
+            />
+        <EditText
+            android:id="@+id/edt_examsetupsyllabus"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Syllabus"
+            android:paddingStart="20dp"
+            android:textColorHint="#716D6D"
+            android:inputType="text"
+            android:background="@drawable/edittext_boxshape"
+            android:layout_marginTop="15dp"
+            />
+        <TextView
+            android:id="@+id/edt_examsetupdate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Date"
+            android:paddingStart="20dp"
+            android:textColorHint="#716D6D"
+            android:inputType="text"
+            android:textSize="18sp"
+            android:background="@drawable/edittext_boxshape"
+            android:layout_marginTop="15dp"
+            android:gravity="center|left"
+            />
+        <TextView
+            android:id="@+id/edt_examsetuptime"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Time"
+            android:paddingStart="20dp"
+            android:textColorHint="#716D6D"
+            android:inputType="text"
+            android:textSize="18sp"
+            android:defaultFocusHighlightEnabled="true"
+            android:background="@drawable/edittext_boxshape"
+            android:layout_marginTop="15dp"
+            android:gravity="center|left"
+            />
+        <EditText
+            android:id="@+id/edt_examsetupmark"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Marks"
+            android:paddingStart="20dp"
+            android:textColorHint="#716D6D"
+            android:inputType="text"
+            android:background="@drawable/edittext_boxshape"
+            android:layout_marginTop="15dp"
+            />
+        <EditText
+            android:id="@+id/edt_examsetupduration"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Duration"
+            android:paddingStart="20dp"
+            android:textColorHint="#716D6D"
+            android:inputType="number"
+            android:background="@drawable/edittext_boxshape"
+            android:layout_marginTop="15dp"
+            />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_addquestion"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="add question"
+        android:textColor="@color/black_pr"
+        android:textSize="18dp"
+        android:backgroundTint="@color/blue_sc"
+        android:layout_marginTop="30dp"
+        android:gravity="center"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_examsetupok"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="ok"
+        android:textSize="18dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/buttoneffect"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
+    </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
