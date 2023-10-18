@@ -7,6 +7,15 @@ public class examsetupinfo {
     private String ExamsetupTime;
     private String ExamsetupMark;
     private String ExamsetupDuration;
+    private String key;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public examsetupinfo() {
     }

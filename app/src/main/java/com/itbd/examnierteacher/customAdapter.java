@@ -1,7 +1,9 @@
 package com.itbd.examnierteacher;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.itbd.examnierteacher.datamanage.examsetupinfo;
 import com.itbd.examnierteacher.fragment.DashFragment;
 
@@ -56,7 +63,28 @@ public class customAdapter extends ArrayAdapter<examsetupinfo> {
         itemFive.setText("Duration:"+examinfo.getExamsetupDuration());
 
 
+        ExamEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(customAdapter.this.getContext(), examset.class);
+                getContext().startActivity(intent);
+            }
+        });
+        ExamDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key=eaxmlist.get(position).getKey();
 
+                FirebaseDatabase.getInstance().getReference("ExamsetupInfo").child(""+key)
+                         .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                notifyDataSetChanged();
+                                Toast.makeText(getContext(), "Delete Successful", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
 
         return view;
     }

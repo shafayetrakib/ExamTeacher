@@ -63,6 +63,9 @@ public class DashFragment extends Fragment {
 
         showexam=view.findViewById(R.id.showexam);
 
+        //
+
+
 
 
         return view;
@@ -71,21 +74,7 @@ public class DashFragment extends Fragment {
     
     public void onStart(){
 
-        TextView Showname=getView().findViewById(R.id.showfullname);
 
-        databaseReference1=FirebaseDatabase.getInstance().getReference().child("Teacher");
-        databaseReference1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String fullName= String.valueOf(snapshot.child("fullname").getValue());
-                Showname.setText(fullName);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         //
         databaseReference.addValueEventListener(new ValueEventListener() {

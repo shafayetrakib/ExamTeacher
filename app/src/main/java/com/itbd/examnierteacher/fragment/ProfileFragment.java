@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,8 +31,10 @@ import com.itbd.examnierteacher.Changepassword;
 import com.itbd.examnierteacher.R;
 import com.itbd.examnierteacher.SignIn;
 import com.itbd.examnierteacher.personalinfo;
+import com.squareup.picasso.Picasso;
 
 import java.time.Instant;
+import java.time.temporal.TemporalAdjuster;
 
 
 public class ProfileFragment extends Fragment {
@@ -67,8 +70,6 @@ public class ProfileFragment extends Fragment {
 
 
     public void onStart(){
-
-
 
 
 
