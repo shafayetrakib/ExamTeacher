@@ -100,13 +100,36 @@
         android:paddingStart="13dp"
 
         />
-    <Spinner
-        android:id="@+id/select"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/edittext_boxshape"
-        android:paddingStart="13dp"/>
+
+        <RelativeLayout
+            android:id="@+id/course_selector_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edt_bg">
+            <ImageView
+                android:src="@drawable/ic_course"
+                style="@style/edt_icon_style"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:id="@+id/txt_select_course"
+                android:hint="Select Your Course"
+                android:gravity="center_vertical"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                style="@style/edt_txt_style"
+                tools:ignore="HardcodedText" />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:padding="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_down_arrow"
+                android:clickable="true"
+                android:focusable="true"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

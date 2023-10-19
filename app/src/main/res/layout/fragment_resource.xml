@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".fragment.ResourceFragment">
+    android:background="@color/blue_sc"
+    tools:context=".fragment.ResourceFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="I,m resource"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:elevation="3dp"
+        android:background="@drawable/white_radius_bottom_bg">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resources"
+            android:textSize="48sp"
+            android:textColor="@color/blue_pr"
+            android:fontFamily="@font/barlow_semibold"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/res_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:clipToPadding="false"
+        android:dividerHeight="10dp"
+        android:stackFromBottom="true"
+        android:divider="@color/transparent"
+        android:scrollbars="none"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/white_radius_top_bg">
+
+        <EditText
+            android:id="@+id/edt_msg"
+            android:layout_width="0dp"
+            android:minHeight="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingHorizontal="20dp"
+            android:hint="@string/enter_your_message"
+            android:background="@drawable/edt_bg"
+            android:importantForAutofill="no"
+            android:inputType="text"/>
+
+        <ImageView
+            android:id="@+id/img_btn_msg_send"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:padding="15dp"
+            android:src="@drawable/ic_send"
+            android:background="@drawable/btn_blue_bg"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+</LinearLayout>

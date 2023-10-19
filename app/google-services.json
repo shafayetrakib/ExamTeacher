@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "25733530591",
-    "project_id": "examnirteacher",
-    "storage_bucket": "examnirteacher.appspot.com"
+    "project_number": "251470812952",
+    "firebase_url": "https://examiner-38dff-default-rtdb.firebaseio.com",
+    "project_id": "examiner-38dff",
+    "storage_bucket": "examiner-38dff.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:25733530591:android:10420634509bee91edba6a",
+        "mobilesdk_app_id": "1:251470812952:android:ec4bcfaa358751aa32706d",
         "android_client_info": {
           "package_name": "com.itbd.examnierteacher"
         }
@@ -15,7 +16,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAL4htGYIx0yFMd2YpaABQfKuzTTEm871A"
+          "current_key": "AIzaSyBkgf5Wigs0LNmdReaSPoUi8xktY4JouuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251470812952:android:4c570b9252bbfcc332706d",
+        "android_client_info": {
+          "package_name": "com.shariarunix.examiner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkgf5Wigs0LNmdReaSPoUi8xktY4JouuY"
         }
       ],
       "services": {
