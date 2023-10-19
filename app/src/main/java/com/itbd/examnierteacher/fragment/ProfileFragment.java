@@ -31,7 +31,6 @@ import com.itbd.examnierteacher.Changepassword;
 import com.itbd.examnierteacher.R;
 import com.itbd.examnierteacher.SignIn;
 import com.itbd.examnierteacher.personalinfo;
-import com.squareup.picasso.Picasso;
 
 import java.time.Instant;
 import java.time.temporal.TemporalAdjuster;

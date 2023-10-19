@@ -12,8 +12,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.itbd.examnierteacher.datamanage.signupInfo;
 import com.itbd.examnierteacher.fragment.DashFragment;
 import com.itbd.examnierteacher.fragment.ProfileFragment;
 import com.itbd.examnierteacher.fragment.ResourceFragment;
@@ -21,18 +28,21 @@ import com.itbd.examnierteacher.fragment.ResultFragment;
 
 public class Dashboard extends AppCompatActivity {
 
-    BottomNavigationView bottonavbar;
+    BottomNavigationView bottomNav;
+
+    DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        bottonavbar= findViewById(R.id.botton_navigationbar);
 
+        String uID = getIntent().getStringExtra("uID");
+
+        bottomNav = findViewById(R.id.botton_navigationbar);
         getWindow().setStatusBarColor(ContextCompat.getColor(Dashboard.this,R.color.blue_pr));
 
-
-        bottonavbar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -47,7 +57,7 @@ public class Dashboard extends AppCompatActivity {
             }  else if(id==R.id.dashboard){
                 FragmentManager fm=getSupportFragmentManager();
                 FragmentTransaction ft= fm.beginTransaction();
-                ft.add(R.id.framelayout,new DashFragment());
+                ft.add(R.id.framelayout,new DashFragment(uID));
                 ft.commit();
 
             }
@@ -70,8 +80,10 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        bottonavbar.setSelectedItemId(R.id.dashboard);
+        bottomNav.setSelectedItemId(R.id.dashboard);
 
     }
+
+
 
 }

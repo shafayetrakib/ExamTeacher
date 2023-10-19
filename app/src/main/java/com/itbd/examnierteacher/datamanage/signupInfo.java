@@ -1,50 +1,57 @@
 package com.itbd.examnierteacher.datamanage;
 
 public class signupInfo {
-    private  String Fullname;
-    private String Email;
-    private String Phone;
-    private String Course;
+    private  String fullName, email, phone, course, uId;
 
     public signupInfo() {
+        // Default Empty Constructor
     }
 
-    public signupInfo(String fullname, String email, String phone, String course) {
-        Fullname = fullname;
-        Email = email;
-        Phone = phone;
-        Course = course;
+    public signupInfo(String fullName, String email, String phone, String course, String uId) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.course = course;
+        this.uId = uId;
     }
 
-    public String getFullname() {
-        return Fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        Fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPhone() {
-        return Phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
-        Phone = phone;
+        this.phone = phone;
     }
 
     public String getCourse() {
-        return Course;
+        return course;
     }
 
     public void setCourse(String course) {
-        Course = course;
+        this.course = course;
+    }
+
+    public String getuId() {
+        return uId;
+    }
+
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 }

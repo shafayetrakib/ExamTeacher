@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -196,8 +197,13 @@ public class Signup extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                                 Toast.makeText(Signup.this, "Registion Succesfull", Toast.LENGTH_SHORT).show();
-                                 
+                            Toast.makeText(Signup.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            assert user != null;
+                            String uId = user.getUid();
+
+                            saveData(uId);
                         }else {
                             if(task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(getApplicationContext(), "User already Registered", Toast.LENGTH_SHORT).show();
@@ -207,18 +213,17 @@ public class Signup extends AppCompatActivity {
                         }
                     }
                 });
-                  saveData();
             }
         });
 
     }
-    public void saveData(){
-        String Fullname= fullName.getText().toString().trim();
+    public void saveData(String uId){
+        String FullName= fullName.getText().toString().trim();
         String Email= email.getText().toString().trim();
         String Phone= phone.getText().toString().trim();
         String Course = txtSelectCourse.getText().toString().trim();
 
-        if(TextUtils.isEmpty(Fullname)){
+        if(TextUtils.isEmpty(FullName)){
             fullName.setError("Full name is required");
             fullName.requestFocus();
             return;
@@ -234,14 +239,14 @@ public class Signup extends AppCompatActivity {
             return;
         }
 
-        signupInfo info= new signupInfo(Fullname,Email,Phone,Course);
-        String key=databaseReference.push().getKey();
-        databaseReference.child(key).setValue(info);
-        Toast.makeText(this, "You are Successfully Registread", Toast.LENGTH_SHORT).show();
+        signupInfo info= new signupInfo(FullName, Email, Phone, Course, uId);
+        databaseReference.child(uId).setValue(info);
+
+        Toast.makeText(this, "You are Successfully Registered", Toast.LENGTH_SHORT).show();
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Signup.this);
         alertDialogBuilder.setTitle("Alert");
-        alertDialogBuilder.setMessage("You have got a auto Genarated password");
+        alertDialogBuilder.setMessage("You've Got an Auto Generated Password");
         alertDialogBuilder.setIcon(R.drawable.warning);
         alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
