@@ -18,8 +18,11 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.itbd.examnierteacher.datamanage.examsetupinfo;
-import com.itbd.examnierteacher.fragment.DashFragment;
+import com.itbd.examnierteacher.datamanage.ExamDataModel;
+import com.itbd.examnierteacher.datamanage.QuestionModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class examset extends AppCompatActivity {
     Button addQuestion,ok;
@@ -44,7 +47,7 @@ public class examset extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(examset.this,R.color.blue_pr));
 
-      databaseReference = FirebaseDatabase.getInstance().getReference("ExamsetupInfo");
+      databaseReference = FirebaseDatabase.getInstance().getReference();
 
         //for adding questions
         addQuestion.setOnClickListener(new View.OnClickListener() {
@@ -55,24 +58,24 @@ public class examset extends AppCompatActivity {
         });
 
 
-//Datepicker for date select
+//Date Picker for date select
         examsetupDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 DatePicker datePicker=new DatePicker(examset.this);
-               int currentDay= datePicker.getDayOfMonth();
-               int currentMonth= (datePicker.getMonth()+1);
-               int currentYear= datePicker.getYear();
+                int currentDay= datePicker.getDayOfMonth();
+                int currentMonth= (datePicker.getMonth()+1);
+                int currentYear= datePicker.getYear();
 
                 datePickerDailog = new DatePickerDialog(examset.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                                examsetupDate.setText(i2+"/"+(i1+1)+"/"+i);
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                            examsetupDate.setText(i2+"/"+(i1+1)+"/"+i);
 
-                            }
-                        },currentYear,currentMonth,currentDay );
+                        }
+                    },currentYear,currentMonth,currentDay );
                 datePickerDailog.show();
             }
         });
@@ -115,47 +118,53 @@ public class examset extends AppCompatActivity {
 
     }
     public void examsetUp(){
-        String ExamsetupName=examsetupName.getText().toString().trim();
-        String ExamsetupSyllabus=examsetupSyllabus.getText().toString().trim();
-        String ExamsetupDate=examsetupDate.getText().toString().trim();
-        String ExamsetupTime=examsetupTime.getText().toString().trim();
-        String ExamsetupMark=examsetupMark.getText().toString().trim();
-        String ExamsetupDuration=examsetupDuration.getText().toString().trim();
+        String examName = examsetupName.getText().toString().trim();
+        String examSyllabus = examsetupSyllabus.getText().toString().trim();
+        String examDate = examsetupDate.getText().toString().trim();
+        String examTime = examsetupTime.getText().toString().trim();
+        String totalMarks = examsetupMark.getText().toString().trim();
+        String duration = examsetupDuration.getText().toString().trim();
 
-        if(TextUtils.isEmpty(ExamsetupName)){
+        if(TextUtils.isEmpty(examName)){
             examsetupName.setError("please Enter the ExamName");
             examsetupName.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(ExamsetupSyllabus)){
+        if(TextUtils.isEmpty(examSyllabus)){
             examsetupSyllabus.setError("please Enter the ExamName");
             examsetupSyllabus.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(ExamsetupDate)){
+        if(TextUtils.isEmpty(examDate)){
             examsetupDate.setError("please Enter the ExamName");
             examsetupDate.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(ExamsetupTime)){
+        if(TextUtils.isEmpty(examTime)){
             examsetupTime.setError("please Enter the ExamName");
             examsetupTime.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(ExamsetupMark)){
+        if(TextUtils.isEmpty(totalMarks)){
             examsetupMark.setError("please Enter the ExamName");
             examsetupMark.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(ExamsetupDuration)){
+        if(TextUtils.isEmpty(duration)){
             examsetupDuration.setError("please Enter the ExamName");
             examsetupDuration.requestFocus();
             return;
         }
 
-        examsetupinfo examinfo= new examsetupinfo(ExamsetupName,ExamsetupSyllabus,ExamsetupDate,ExamsetupTime,ExamsetupMark,ExamsetupDuration);
+        List<QuestionModel> questionModelList = new ArrayList<>();
+        List<String> usersList = new ArrayList<>();
+
         String key=databaseReference.push().getKey();
-        databaseReference.child(key).setValue(examinfo);
+
+        assert key != null;
+        databaseReference.child("examSet").child(key).setValue(new ExamDataModel(examName, examSyllabus,
+                examTime, examDate, totalMarks, duration,"Android App Development", key, usersList, questionModelList));
+
         Toast.makeText(this, "exam setup successfully done", Toast.LENGTH_SHORT).show();
     }
 }

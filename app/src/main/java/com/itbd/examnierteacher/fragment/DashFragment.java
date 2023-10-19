@@ -13,28 +13,26 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.itbd.examnierteacher.Dashboard;
 import com.itbd.examnierteacher.R;
 import com.itbd.examnierteacher.customAdapter;
-import com.itbd.examnierteacher.datamanage.examsetupinfo;
+import com.itbd.examnierteacher.datamanage.ExamDataModel;
 import com.itbd.examnierteacher.examset;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class DashFragment extends Fragment {
    private Activity context;
-    ListView showexam;
-    DatabaseReference databaseReference,databaseReference1;
-    private List<examsetupinfo> eaxmlist;
+    ListView showExam;
+    DatabaseReference databaseReference;
+    private List<ExamDataModel> eaxmlist;
      private  customAdapter CustomAdapter;
 
 
@@ -56,12 +54,13 @@ public class DashFragment extends Fragment {
 
 
 
-        databaseReference=FirebaseDatabase.getInstance().getReference("ExamsetupInfo");
+        databaseReference=FirebaseDatabase.getInstance().getReference("examSet");
 
         eaxmlist=new ArrayList<>();
+        Collections.reverse(eaxmlist);
         CustomAdapter =new customAdapter(DashFragment.super.getActivity(),eaxmlist);
 
-        showexam=view.findViewById(R.id.showexam);
+        showExam = view.findViewById(R.id.showexam);
 
         //
 
@@ -82,10 +81,10 @@ public class DashFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 eaxmlist.clear();
                 for (DataSnapshot snapshot1:snapshot.getChildren()){
-                    examsetupinfo examinfo=snapshot1.getValue(examsetupinfo.class);
+                    ExamDataModel examinfo = snapshot1.getValue(ExamDataModel.class);
                     eaxmlist.add(examinfo);
                 }
-                showexam.setAdapter(CustomAdapter);
+                showExam.setAdapter(CustomAdapter);
             }
 
             @Override
@@ -100,8 +99,8 @@ public class DashFragment extends Fragment {
 
 
         //
-        TextView examcreat= (TextView) context.findViewById(R.id.exam_creatfirst);
-        examcreat.setOnClickListener(new View.OnClickListener() {
+        TextView btnExamCreate= (TextView) context.findViewById(R.id.exam_creatfirst);
+        btnExamCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(context, examset.class));

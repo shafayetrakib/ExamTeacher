@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     tools:context=".examset">
 
     <LinearLayout
@@ -116,18 +115,19 @@
         android:id="@+id/btn_addquestion"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="add question"
+        android:text="Add Question"
         android:textColor="@color/black_pr"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:backgroundTint="@color/blue_sc"
         android:layout_marginTop="30dp"
         android:gravity="center"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_examsetupok"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="ok"
-        android:textSize="18dp"
+        android:text="Ok"
+        android:textSize="18sp"
         android:layout_marginTop="30dp"
         android:background="@drawable/buttoneffect"
         android:textColor="@color/white"

@@ -54,7 +54,7 @@ public class forgetpassword extends AppCompatActivity {
             public void onClick(View view) {
                 String email=forgotEmail.getText().toString().trim();
                 if(email.isEmpty()){
-                    forgotEmail.setError("Enter your Eamil");
+                    forgotEmail.setError("Enter your Email");
                     forgotEmail.requestFocus();
                     return;
                 }
@@ -67,9 +67,9 @@ public class forgetpassword extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(forgetpassword.this, "Check your email to reset your passwoed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(forgetpassword.this, "Check your email to reset your password", Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(forgetpassword.this, "Try again Somthing worng happend", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(forgetpassword.this, "Try again something wrong happened", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -276,6 +276,7 @@ public class Signup extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     courseListData.add(dataSnapshot.getValue(String.class));
                 }
+                courseListData.remove("All");
             }
 
             @Override

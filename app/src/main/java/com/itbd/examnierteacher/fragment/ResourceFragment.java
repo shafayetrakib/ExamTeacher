@@ -75,7 +75,7 @@ public class ResourceFragment extends Fragment {
                 String msgKey = mReference.push().getKey();
                 assert msgKey != null;
                 mReference.child("resource").child(msgKey).setValue(new ResourceDataModel(message, date, time,
-                        "Shariar", "All", msgKey));
+                        "Shariar", userCourse, msgKey));
 
                 edtMsg.setText("");
             }
