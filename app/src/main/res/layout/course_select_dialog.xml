@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:background="@drawable/white_radius_top_bg">
      <TextView
+         android:id="@+id/course_dialog_title"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:layout_marginTop="20dp"
@@ -16,6 +17,12 @@
           android:textColor="@color/blue_pr"
           android:fontFamily="@font/barlow_semibold"
          tools:ignore="HardcodedText" />
+     <ProgressBar
+         android:id="@+id/progress_bar"
+         android:layout_width="50dp"
+         android:layout_height="50dp"
+         android:layout_margin="50dp"
+          android:layout_gravity="center_horizontal"/>
      <ListView
          android:id="@+id/course_list"
          android:layout_width="match_parent"

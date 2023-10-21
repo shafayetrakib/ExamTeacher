@@ -1,13 +1,15 @@
-package com.itbd.examnierteacher.datamanage;
+package com.itbd.examnierteacher.DataMoldes;
 
-public class signupInfo {
+import java.io.Serializable;
+
+public class SignUpInfoModel implements Serializable {
     private  String fullName, email, phone, course, uId;
 
-    public signupInfo() {
+    public SignUpInfoModel() {
         // Default Empty Constructor
     }
 
-    public signupInfo(String fullName, String email, String phone, String course, String uId) {
+    public SignUpInfoModel(String fullName, String email, String phone, String course, String uId) {
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;

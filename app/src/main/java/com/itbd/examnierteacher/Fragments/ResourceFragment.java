@@ -1,4 +1,4 @@
-package com.itbd.examnierteacher.fragment;
+package com.itbd.examnierteacher.Fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.itbd.examnierteacher.R;
-import com.itbd.examnierteacher.datamanage.ResourceDataModel;
+import com.itbd.examnierteacher.DataMoldes.ResourceDataModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,15 +39,35 @@ import java.util.TimeZone;
 
 public class ResourceFragment extends Fragment {
 
-    String userCourse = "Android App Development";
-    String allCourse = "All";
+    private static final String U_NAME = "arg1";
+    private static final String U_ID = "arg2";
+    private static final String U_COURSE = "arg3";
+
     List<ResourceDataModel> courseResourceDataModelList = new ArrayList<>();
     List<ResourceDataModel> allCourseResourceDataModelList = new ArrayList<>();
     List<ResourceDataModel> resourceDataModelList = new ArrayList<>();
+    String allCourse = "All";
+
+    String userID, userName, userCourse;
 
     public ResourceFragment() {
         // Required empty public constructor
     }
+
+    public static ResourceFragment getInstance(String uId, String uName, String uCourse) {
+        ResourceFragment resourceFragment = new ResourceFragment();
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString(U_ID, uId);
+        bundle.putString(U_NAME, uName);
+        bundle.putString(U_COURSE, uCourse);
+
+        resourceFragment.setArguments(bundle);
+
+        return resourceFragment;
+    }
+
     DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,8 +77,15 @@ public class ResourceFragment extends Fragment {
         EditText edtMsg = view.findViewById(R.id.edt_msg);
         ImageView imgBtnMsgSend = view.findViewById(R.id.img_btn_msg_send);
 
+        if(getArguments() != null){
+            userID = getArguments().getString(U_ID);
+            userName = getArguments().getString(U_NAME);
+            userCourse = getArguments().getString(U_COURSE);
+        }
+
         ListView res_list = view.findViewById(R.id.res_list);
-        loadRes(res_list);
+        loadRes(res_list, userCourse);
+
         imgBtnMsgSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +101,7 @@ public class ResourceFragment extends Fragment {
                 String msgKey = mReference.push().getKey();
                 assert msgKey != null;
                 mReference.child("resource").child(msgKey).setValue(new ResourceDataModel(message, date, time,
-                        "Shariar", userCourse, msgKey));
+                        userName, userCourse, msgKey));
 
                 edtMsg.setText("");
             }
@@ -83,6 +109,7 @@ public class ResourceFragment extends Fragment {
 
         return view;
     }
+
     private String getPresentDate(){
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         sDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Dhaka"));
@@ -94,29 +121,8 @@ public class ResourceFragment extends Fragment {
         sTimeFormat.setTimeZone(TimeZone.getTimeZone("Asia/Dhaka"));
         return sTimeFormat.format(new Date());
     }
-    private void loadRes(ListView listView){
+    private void loadRes(ListView listView, String specificCourse){
         mReference = FirebaseDatabase.getInstance().getReference();
-
-        mReference.child("resource")
-                .orderByChild("course")
-                .equalTo(userCourse)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        courseResourceDataModelList.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                            ResourceDataModel resourceDataModel = dataSnapshot.getValue(ResourceDataModel.class);
-
-                            courseResourceDataModelList.add(resourceDataModel);
-                        }
-                        mergeList(listView);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
 
         mReference.child("resource")
                 .orderByChild("course")
@@ -129,6 +135,27 @@ public class ResourceFragment extends Fragment {
                             ResourceDataModel resourceDataModel = dataSnapshot.getValue(ResourceDataModel.class);
 
                             allCourseResourceDataModelList.add(resourceDataModel);
+                        }
+                        mergeList(listView);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        mReference.child("resource")
+                .orderByChild("course")
+                .equalTo(specificCourse)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        courseResourceDataModelList.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            ResourceDataModel resourceDataModel = dataSnapshot.getValue(ResourceDataModel.class);
+
+                            courseResourceDataModelList.add(resourceDataModel);
                         }
                         mergeList(listView);
                     }
@@ -210,7 +237,7 @@ public class ResourceFragment extends Fragment {
                     @Override
                     public boolean onLongClick(View view) {
                         imgBtnMsgDlt.setVisibility(View.VISIBLE);
-                        return false;
+                        return true;
                     }
                 });
                 imgBtnMsgDlt.setOnClickListener(new View.OnClickListener() {

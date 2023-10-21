@@ -6,22 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".personalinfo">
+    tools:context=".PersonalInfoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@drawable/background_shape"
-        android:layout_height="150dp">
+        android:layout_height="wrap_content"
+        android:padding="20dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enter Your Infromation"
+            android:text="Personal\nInformation"
             android:textColor="@color/white"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginTop="60dp"
-            />
+            android:textSize="38sp"
+            android:fontFamily="@font/barlow_semibold"
+            android:lineHeight="38sp"
+            android:layout_marginTop="30dp"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
     <LinearLayout
@@ -36,8 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:inputType="text"
-            android:hint="Full Name"
-            android:paddingStart="20dp"
+            android:hint="Enter your name"
+            android:paddingHorizontal="20dp"
             android:background="@drawable/edittext_boxshape"/>
         <EditText
             android:id="@+id/edit_email"
@@ -45,36 +46,28 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:inputType="textEmailAddress"
-            android:hint="Email"
-            android:paddingStart="20dp"
-            android:background="@drawable/edittext_boxshape"/>
+            android:paddingHorizontal="20dp"
+            android:background="@drawable/edittext_boxshape"
+            android:clickable="false"/>
         <EditText
             android:id="@+id/edit_phone"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:inputType="phone"
-            android:hint="Phone"
-            android:paddingStart="20dp"
+            android:hint="Enter your phone number"
+            android:paddingHorizontal="20dp"
             android:background="@drawable/edittext_boxshape"/>
         <EditText
-            android:id="@+id/edit_per_addresss"
+            android:id="@+id/edit_course"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:inputType="text"
-            android:hint="permanent Address"
-            android:paddingStart="20dp"
-            android:background="@drawable/edittext_boxshape"/>
-        <EditText
-            android:id="@+id/edit_pre_addresss"
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:inputType="text"
-            android:hint="present Address"
-            android:paddingStart="20dp"
-            android:background="@drawable/edittext_boxshape"/>
+            android:paddingHorizontal="20dp"
+            android:background="@drawable/edittext_boxshape"
+            android:clickable="false"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_saveinfo"
             android:layout_marginTop="30dp"

@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,15 +24,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.itbd.examnierteacher.fragment.DashFragment;
 
-public class SignIn extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
     private static final String FILE_NAME = "MyFile";
     public static final String SHEARD_PREFS="SheadrPrefs";
     EditText passwordSignin,emailSignin;
@@ -60,7 +52,7 @@ public class SignIn extends AppCompatActivity {
         rememberMe=findViewById(R.id.rememberme);
         progressBar=findViewById(R.id.progresss);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(SignIn.this,R.color.blue_pr));
+        getWindow().setStatusBarColor(ContextCompat.getColor(SignInActivity.this,R.color.blue_pr));
 
         SharedPreferences sharedPreferences=getSharedPreferences(FILE_NAME,MODE_PRIVATE);
        String LoginEmail= sharedPreferences.getString("mail","");
@@ -74,7 +66,7 @@ public class SignIn extends AppCompatActivity {
         signuptext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignIn.this, Signup.class));
+                startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
             }
         });
 
@@ -82,7 +74,7 @@ public class SignIn extends AppCompatActivity {
         backOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignIn.this, startpage.class));
+                startActivity(new Intent(SignInActivity.this, startpage.class));
             }
         });
 
@@ -93,7 +85,7 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(SignIn.this, forgetpassword.class));
+                startActivity(new Intent(SignInActivity.this, ForgotPasswordActivity.class));
             }
         });
         //Hide or show password
@@ -159,7 +151,7 @@ public class SignIn extends AppCompatActivity {
                             assert user != null;
                             String uID = user.getUid();
 
-                            startActivity(new Intent(SignIn.this, Dashboard.class).putExtra("uID", uID));
+                            startActivity(new Intent(SignInActivity.this, DashboardActivity.class).putExtra("uID", uID));
                             finish();
 
                         }else {

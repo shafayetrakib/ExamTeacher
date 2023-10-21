@@ -1,6 +1,5 @@
-package com.itbd.examnierteacher.fragment;
+package com.itbd.examnierteacher.Fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,12 +18,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.itbd.examnierteacher.Dashboard;
 import com.itbd.examnierteacher.R;
-import com.itbd.examnierteacher.customAdapter;
-import com.itbd.examnierteacher.datamanage.ExamDataModel;
-import com.itbd.examnierteacher.datamanage.signupInfo;
-import com.itbd.examnierteacher.examset;
+import com.itbd.examnierteacher.CustomAdapter;
+import com.itbd.examnierteacher.DataMoldes.ExamDataModel;
+import com.itbd.examnierteacher.DataMoldes.SignUpInfoModel;
+import com.itbd.examnierteacher.ExamSetActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,41 +30,47 @@ import java.util.List;
 
 
 public class DashFragment extends Fragment {
-    private Activity context;
+    private static final String U_DATA = "arg1";
     ListView showExam;
+    TextView txtUserName;
     DatabaseReference databaseReference;
     private List<ExamDataModel> eaxmlist;
-    private  customAdapter CustomAdapter;
+    private com.itbd.examnierteacher.CustomAdapter CustomAdapter;
 
-    String uID;
-    signupInfo signupInfoData;
+    SignUpInfoModel signUpInfoModelData;
 
     public DashFragment() {
 
     }
 
-    public DashFragment(String uID) {
-        this.uID = uID;
+    public static DashFragment getInstance(SignUpInfoModel userData){
+        DashFragment dashFragment = new DashFragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putSerializable(U_DATA, userData);
+
+        dashFragment.setArguments(bundle);
+        return dashFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        context=getActivity();
-
-        // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_dash, container, false);
 
+        if (getArguments() != null){
+            signUpInfoModelData = (SignUpInfoModel) getArguments().getSerializable(U_DATA);
+        }
 
-        databaseReference=FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        loadExamSet();
 
-
-        TextView txtUserName = view.findViewById(R.id.txt_user_name);
-        loadUserData(uID, txtUserName);
+        txtUserName = view.findViewById(R.id.txt_user_name);
+        txtUserName.setText(signUpInfoModelData.getFullName());
 
         eaxmlist=new ArrayList<>();
         Collections.reverse(eaxmlist);
-        CustomAdapter =new customAdapter(DashFragment.super.getActivity(),eaxmlist);
+        CustomAdapter =new CustomAdapter(DashFragment.super.getActivity(),eaxmlist);
 
         showExam = view.findViewById(R.id.showexam);
 
@@ -74,17 +78,17 @@ public class DashFragment extends Fragment {
         btnExamCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(context, examset.class));
+                startActivity(new Intent(requireActivity(), ExamSetActivity.class).putExtra("userCourse", signUpInfoModelData.getCourse()));
             }
         });
 
         return view;
     }
 
-    
-    public void onStart(){
-
-        databaseReference.child("examSet").addValueEventListener(new ValueEventListener() {
+    private void loadExamSet(){
+        databaseReference.child("examSet")
+                .orderByChild("course")
+                .equalTo(signUpInfoModelData.getCourse()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 eaxmlist.clear();
@@ -93,25 +97,7 @@ public class DashFragment extends Fragment {
                     eaxmlist.add(examDataModel);
                 }
                 showExam.setAdapter(CustomAdapter);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        super.onStart();
-    }
-
-    public void loadUserData(String uID, TextView textView) {
-        databaseReference.child("Teacher").child(uID).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                signupInfoData = snapshot.getValue(signupInfo.class);
-
-                Toast.makeText(requireActivity(), ""+signupInfoData.getFullName(), Toast.LENGTH_SHORT).show();
-                textView.setText(signupInfoData.getFullName());
             }
 
             @Override

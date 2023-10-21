@@ -1,4 +1,4 @@
-package com.itbd.examnierteacher.datamanage;
+package com.itbd.examnierteacher.DataMoldes;
 
 import java.io.Serializable;
 

@@ -8,23 +8,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Changepassword extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
     EditText changePassword;
     ImageView visiable;
     Button saveChange;
@@ -34,11 +29,12 @@ public class Changepassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_changepassword);
+
         changePassword= findViewById(R.id.changepassword);
         saveChange=findViewById(R.id.savechangetwo);
         visiable=findViewById(R.id.Newpass_invisiable);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(Changepassword.this,R.color.blue_pr));
+        getWindow().setStatusBarColor(ContextCompat.getColor(ChangePasswordActivity.this,R.color.blue_pr));
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -63,7 +59,7 @@ public class Changepassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String Changepassword=changePassword.getText().toString().trim();
+                String Changepassword = changePassword.getText().toString().trim();
                 if(Changepassword.isEmpty()){
                     changePassword.setError("Enter a Password");
                     changePassword.requestFocus();
@@ -74,18 +70,18 @@ public class Changepassword extends AppCompatActivity {
                     changePassword.requestFocus();
                     return;
                 }
-                FirebaseUser user=mAuth.getCurrentUser();
+                FirebaseUser user = mAuth.getCurrentUser();
                 user.updatePassword(Changepassword).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(Changepassword.this, "your password is changed successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, "Password changed successful.", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(ChangePasswordActivity.this, SignInActivity.class));
                         finish();
-                        startActivity(new Intent(Changepassword.this, SignIn.class));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Changepassword.this, "Password reset fuailure", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, "Something went wrong, Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
 

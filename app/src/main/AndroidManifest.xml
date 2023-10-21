@@ -13,10 +13,10 @@
         android:theme="@style/Theme.ExamnierTeacher"
         tools:targetApi="31">
         <activity
-            android:name=".Changepassword"
+            android:name=".ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".personalinfo"
+            android:name=".PersonalInfoActivity"
             android:exported="false" />
         <activity
             android:name=".changeInfo"
@@ -25,13 +25,13 @@
             android:name=".startpage"
             android:exported="false" />
         <activity
-            android:name=".question"
+            android:name=".QuestionSetActivity"
             android:exported="false" />
         <activity
-            android:name=".examset"
+            android:name=".ExamSetActivity"
             android:exported="false" />
         <activity
-            android:name=".Dashboard"
+            android:name=".DashboardActivity"
             android:exported="false" />
         <activity
             android:name=".customdailog"
@@ -43,19 +43,19 @@
             android:name=".otp"
             android:exported="false" />
         <activity
-            android:name=".forgetpassword"
+            android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".Signup"
+            android:name=".SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".CreatTeacher"
             android:exported="false" />
         <activity
-            android:name=".SignIn"
+            android:name=".SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

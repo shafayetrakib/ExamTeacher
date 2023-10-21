@@ -5,24 +5,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/blue_pr"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:gravity="center"
+    tools:context=".SplashActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-        android:layout_marginTop="300dp"
+        android:padding="50dp"
+        android:src="@drawable/whitelogo"
         />
     <ProgressBar
-        android:progressBackgroundTint="#C3E4E3E3"
-        android:progressTint="@color/blue_pr"
         android:id="@+id/progessbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_marginTop="160dp"
-        android:padding="6dp"/>
+        android:paddingHorizontal="40dp"
+        android:layout_marginTop="-50dp"
+        android:progressBackgroundTint="@color/blue_sc"
+        android:progressTint="@color/white_pr"
+        style="@android:style/Widget.Material.ProgressBar.Horizontal"/>
 
 </LinearLayout>

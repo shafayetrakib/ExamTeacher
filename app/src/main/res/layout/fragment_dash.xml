@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".fragment.DashFragment">
+    android:orientation="vertical"
+    tools:context=".Fragments.DashFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,55 +15,57 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
             android:background="@drawable/background_shape"
-            tools:ignore="MissingConstraints">
+            android:orientation="vertical"
+            android:padding="20dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/barlow_regular"
                 android:text="Welcome"
-                android:textSize="22sp"
-                android:layout_marginTop="20dp"
                 android:textColor="@color/white"
-                android:gravity="center"
+                android:textSize="28sp"
                 tools:ignore="HardcodedText" />
+
             <TextView
                 android:id="@+id/txt_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/barlow_semibold"
                 android:textColor="@color/white"
-                android:gravity="center"
-                />
+                android:textSize="38sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp">
+
             <TextView
                 android:id="@+id/exam_creatfirst"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Create an exam"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:background="@drawable/exambox_shape"
                 android:gravity="center"
-                android:background="@drawable/exambox_shape"/>
+                android:text="Create Exam"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <ListView
                 android:id="@+id/showexam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
                 android:layout_marginTop="5dp"
+                android:clipToPadding="false"
                 android:divider="@color/white"
-                android:dividerHeight="3dp"/>
-
-
+                android:dividerHeight="3dp"
+                android:paddingBottom="20dp"
+                android:scrollbars="none" />
         </LinearLayout>
     </LinearLayout>
 

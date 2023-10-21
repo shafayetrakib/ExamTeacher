@@ -9,13 +9,11 @@ import androidx.core.content.ContextCompat;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -24,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,19 +40,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.itbd.examnierteacher.datamanage.signupInfo;
+import com.itbd.examnierteacher.DataMoldes.SignUpInfoModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class Signup extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
    EditText fullName,email,phone,autoPassword;
     TextView backTwo,signintext;
     Spinner courseName;
     Button signUp;
     ImageView visiablitySignup;
+    ProgressBar progressBar;
 
     DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
@@ -67,7 +67,7 @@ public class Signup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        getWindow().setStatusBarColor(ContextCompat.getColor(Signup.this,R.color.blue_pr));
+        getWindow().setStatusBarColor(ContextCompat.getColor(SignUpActivity.this,R.color.blue_pr));
 
         databaseReference= FirebaseDatabase.getInstance().getReference("Teacher");
 
@@ -94,7 +94,7 @@ public class Signup extends AppCompatActivity {
         signintext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Signup.this, SignIn.class));
+                startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
             }
         });
 
@@ -102,7 +102,7 @@ public class Signup extends AppCompatActivity {
         backTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Signup.this, startpage.class));
+                startActivity(new Intent(SignUpActivity.this, startpage.class));
             }
         });
 
@@ -113,25 +113,26 @@ public class Signup extends AppCompatActivity {
         loadCourseList();
 
         // Making The Dialog
-        BottomSheetDialog personalInfoDialog = new BottomSheetDialog(this, R.style.bottom_sheet_dialog);
-        Objects.requireNonNull(personalInfoDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        personalInfoDialog.getBehavior().setSkipCollapsed(true);
-        personalInfoDialog.getBehavior().setState(STATE_EXPANDED);
-        personalInfoDialog.setContentView(R.layout.course_select_dialog);
+        BottomSheetDialog courseSelectDialog = new BottomSheetDialog(this, R.style.bottom_sheet_dialog);
+        Objects.requireNonNull(courseSelectDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        courseSelectDialog.getBehavior().setSkipCollapsed(true);
+        courseSelectDialog.getBehavior().setState(STATE_EXPANDED);
+        courseSelectDialog.setContentView(R.layout.course_select_dialog);
 
         RelativeLayout courseSelectorLayout = findViewById(R.id.course_selector_layout);
         txtSelectCourse = findViewById(R.id.txt_select_course);
         courseSelectorLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                personalInfoDialog.show();
+                courseSelectDialog.show();
             }
         });
 
         // Making The List of Course
-        ListView courseList = personalInfoDialog.findViewById(R.id.course_list);
+        ListView courseList = courseSelectDialog.findViewById(R.id.course_list);
+        progressBar = courseSelectDialog.findViewById(R.id.progress_bar);
         assert courseList != null;
-        courseList.setAdapter(new ArrayAdapter<>(Signup.this,
+        courseList.setAdapter(new ArrayAdapter<>(SignUpActivity.this,
                 R.layout.course_list_item,
                 R.id.txt_list_item, courseListData));
 
@@ -139,7 +140,7 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 txtSelectCourse.setText(courseListData.get(i));
-                personalInfoDialog.dismiss();
+                courseSelectDialog.dismiss();
             }
         });
 
@@ -197,7 +198,7 @@ public class Signup extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(Signup.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             assert user != null;
@@ -239,12 +240,12 @@ public class Signup extends AppCompatActivity {
             return;
         }
 
-        signupInfo info= new signupInfo(FullName, Email, Phone, Course, uId);
+        SignUpInfoModel info= new SignUpInfoModel(FullName, Email, Phone, Course, uId);
         databaseReference.child(uId).setValue(info);
 
         Toast.makeText(this, "You are Successfully Registered", Toast.LENGTH_SHORT).show();
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Signup.this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignUpActivity.this);
         alertDialogBuilder.setTitle("Alert");
         alertDialogBuilder.setMessage("You've Got an Auto Generated Password");
         alertDialogBuilder.setIcon(R.drawable.warning);
@@ -252,7 +253,7 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 finish();
-                startActivity(new Intent(Signup.this, SignIn.class));
+                startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
             }
         });
         AlertDialog alertDialog= alertDialogBuilder.create();
@@ -282,11 +283,13 @@ public class Signup extends AppCompatActivity {
                     courseListData.add(dataSnapshot.getValue(String.class));
                 }
                 courseListData.remove("All");
+                progressBar.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Signup.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

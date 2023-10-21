@@ -25,7 +25,7 @@ public class startpage extends AppCompatActivity {
         String FirstTime=preferences.getString("FirstTimeInstall","");
 
         if(FirstTime.equals("Yes")){
-            Intent intent=new Intent(startpage.this, SignIn.class);
+            Intent intent=new Intent(startpage.this, SignInActivity.class);
             startActivity(intent);
             finish();
 
@@ -40,7 +40,7 @@ public class startpage extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(startpage.this, SignIn.class);
+                Intent intent=new Intent(startpage.this, SignInActivity.class);
                 startActivity(intent);
             }
         });
@@ -48,7 +48,7 @@ public class startpage extends AppCompatActivity {
         getStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(startpage.this, Signup.class);
+                Intent intent=new Intent(startpage.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });

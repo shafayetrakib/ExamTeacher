@@ -1,7 +1,6 @@
 package com.itbd.examnierteacher;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -11,7 +10,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 
-public class forgetpassword extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity {
     Button send;
     TextView backThree;
     EditText forgotEmail;
@@ -37,14 +35,14 @@ public class forgetpassword extends AppCompatActivity {
         backThree = findViewById(R.id.backthree);
         forgotEmail =findViewById(R.id.forgot_email);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(forgetpassword.this,R.color.blue_pr));
+        getWindow().setStatusBarColor(ContextCompat.getColor(ForgotPasswordActivity.this,R.color.blue_pr));
 
         mAuth = FirebaseAuth.getInstance();
 
         backThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(forgetpassword.this, SignIn.class));
+                startActivity(new Intent(ForgotPasswordActivity.this, SignInActivity.class));
             }
         });
 
@@ -67,9 +65,9 @@ public class forgetpassword extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(forgetpassword.this, "Check your email to reset your password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgotPasswordActivity.this, "Check your email to reset your password", Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(forgetpassword.this, "Try again something wrong happened", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForgotPasswordActivity.this, "Try again something wrong happened", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

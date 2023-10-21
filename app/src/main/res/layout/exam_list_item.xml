@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/exambox_shape"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/item_one"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/barlow_semibold"
+            android:textColor="@color/black_pr"
+            android:textSize="28sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/black_sc" />
+
+        <TextView
+            android:id="@+id/item_two"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/black_pr"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/item_three"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/black_pr"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/item_four"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/black_pr"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/item_five"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/black_pr"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/item_six"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black_pr"
+            android:textSize="18sp"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_buttonshape"
+                android:contentDescription="Delete"
+                android:src="@drawable/baseline_delete_24" />
+
+            <ImageButton
+                android:id="@+id/edit"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_buttonshape"
+                android:contentDescription="Edit"
+                android:src="@drawable/baseline_edit_24" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
