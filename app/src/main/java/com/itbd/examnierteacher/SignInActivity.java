@@ -27,9 +27,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignInActivity extends AppCompatActivity {
     private static final String FILE_NAME = "MyFile";
-    public static final String SHEARD_PREFS="SheadrPrefs";
-    EditText passwordSignin,emailSignin;
-    TextView mainforgot,signuptext;
+    public static final String SHEARD_PREFS = "SheadrPrefs";
+    EditText passwordSignin, emailSignin;
+    TextView mainforgot, signuptext;
     ImageView visiablity;
     Button signin;
     TextView backOne;
@@ -42,23 +42,23 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        emailSignin=findViewById(R.id.email_signin);
+        emailSignin = findViewById(R.id.email_signin);
         passwordSignin = findViewById(R.id.passwor_signin);
-        visiablity =findViewById(R.id.pass_invisiable);
+        visiablity = findViewById(R.id.pass_invisiable);
         signin = findViewById(R.id.btn_Signin);
-        mainforgot=findViewById(R.id.password_forgot);
-        backOne= findViewById(R.id.backone);
-        signuptext=findViewById(R.id.signuptext);
-        rememberMe=findViewById(R.id.rememberme);
-        progressBar=findViewById(R.id.progresss);
+        mainforgot = findViewById(R.id.password_forgot);
+        backOne = findViewById(R.id.backone);
+        signuptext = findViewById(R.id.signuptext);
+        rememberMe = findViewById(R.id.rememberme);
+        progressBar = findViewById(R.id.progresss);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(SignInActivity.this,R.color.blue_pr));
+        getWindow().setStatusBarColor(ContextCompat.getColor(SignInActivity.this, R.color.blue_pr));
 
-        SharedPreferences sharedPreferences=getSharedPreferences(FILE_NAME,MODE_PRIVATE);
-       String LoginEmail= sharedPreferences.getString("mail","");
-       String LoginPassword= sharedPreferences.getString("signinpassword","");
-       emailSignin.setText(LoginEmail);
-       passwordSignin.setText(LoginPassword);
+        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+        String LoginEmail = sharedPreferences.getString("mail", "");
+        String LoginPassword = sharedPreferences.getString("signinpassword", "");
+        emailSignin.setText(LoginEmail);
+        passwordSignin.setText(LoginPassword);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -70,21 +70,19 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-       // back button for back activity
+        // back button for back activity
         backOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignInActivity.this, startpage.class));
+                onBackPressed();
             }
         });
-
 
 
         //Forgot password
         mainforgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(SignInActivity.this, ForgotPasswordActivity.class));
             }
         });
@@ -92,10 +90,10 @@ public class SignInActivity extends AppCompatActivity {
         visiablity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(passwordSignin.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                if (passwordSignin.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
                     passwordSignin.setTransformationMethod(new PasswordTransformationMethod());
                     visiablity.setImageResource(R.drawable.invisi_eye);
-                }else {
+                } else {
                     passwordSignin.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     visiablity.setImageResource(R.drawable.visi_eye);
                 }
@@ -106,34 +104,34 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //start rememberMe
-                String Mail=emailSignin.getText().toString().trim();
-                String signinpassword=passwordSignin.getText().toString().trim();
-                if(rememberMe.isChecked()){
-                    StoreDatausingShared(Mail,signinpassword);
+                String Mail = emailSignin.getText().toString().trim();
+                String signinpassword = passwordSignin.getText().toString().trim();
+                if (rememberMe.isChecked()) {
+                    StoreDatausingShared(Mail, signinpassword);
                 }
 
                 //End of remember Me
 
-                String email=emailSignin.getText().toString().trim();
-                String password=passwordSignin.getText().toString().trim();
+                String email = emailSignin.getText().toString().trim();
+                String password = passwordSignin.getText().toString().trim();
 
-                if(email.isEmpty()){
+                if (email.isEmpty()) {
                     emailSignin.setError("Enter a Email Adress");
                     emailSignin.requestFocus();
                     return;
                 }
 
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     emailSignin.setError("Enter a valid Email Address");
                     emailSignin.requestFocus();
                     return;
                 }
-                if(password.isEmpty()){
+                if (password.isEmpty()) {
                     passwordSignin.setError("Enter a password");
                     passwordSignin.requestFocus();
                     return;
                 }
-                if(password.length()<8){
+                if (password.length() < 8) {
                     passwordSignin.setError("Minimum eight digit password ");
                     passwordSignin.requestFocus();
                     return;
@@ -141,11 +139,11 @@ public class SignInActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
 
-                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             assert user != null;
@@ -154,7 +152,7 @@ public class SignInActivity extends AppCompatActivity {
                             startActivity(new Intent(SignInActivity.this, DashboardActivity.class).putExtra("uID", uID));
                             finish();
 
-                        }else {
+                        } else {
                             Toast.makeText(getApplicationContext(), "SignIn Unsuccessful", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -167,12 +165,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 
-
-
     private void StoreDatausingShared(String mail, String signinpassword) {
-        SharedPreferences.Editor editor=getSharedPreferences(FILE_NAME,MODE_PRIVATE).edit();
-        editor.putString("mail",mail);
-        editor.putString("signinpassword",signinpassword);
+        SharedPreferences.Editor editor = getSharedPreferences(FILE_NAME, MODE_PRIVATE).edit();
+        editor.putString("mail", mail);
+        editor.putString("signinpassword", signinpassword);
         editor.apply();
     }
 }

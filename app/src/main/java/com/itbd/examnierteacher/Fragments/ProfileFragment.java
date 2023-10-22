@@ -15,19 +15,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.itbd.examnierteacher.ChangePasswordActivity;
 import com.itbd.examnierteacher.R;
 import com.itbd.examnierteacher.SignInActivity;
-import com.itbd.examnierteacher.DataMoldes.SignUpInfoModel;
+import com.itbd.examnierteacher.DataMoldes.TeacherDataModel;
 import com.itbd.examnierteacher.PersonalInfoActivity;
 
 public class ProfileFragment extends Fragment {
 
     private static final String U_DATA = "arg1";
-    SignUpInfoModel signUpInfoModelData;
+    TeacherDataModel teacherDataModelData;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileFragment getInstance(SignUpInfoModel uData) {
+    public static ProfileFragment getInstance(TeacherDataModel uData) {
         ProfileFragment profileFragment = new ProfileFragment();
 
         Bundle bundle = new Bundle();
@@ -44,7 +44,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, viewGroup, false);
 
         if (getArguments() != null) {
-            signUpInfoModelData = (SignUpInfoModel) getArguments().getSerializable(U_DATA);
+            teacherDataModelData = (TeacherDataModel) getArguments().getSerializable(U_DATA);
         }
 
         ImageButton btnLogOut = view.findViewById(R.id.btn_logout);
@@ -53,7 +53,7 @@ public class ProfileFragment extends Fragment {
 
         TextView teacherName = view.findViewById(R.id.teacher_name);
 
-        teacherName.setText(signUpInfoModelData.getFullName());
+        teacherName.setText(teacherDataModelData.getFullName());
 
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment {
         btnPersonalInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(requireActivity(), PersonalInfoActivity.class).putExtra("uData", signUpInfoModelData));
+                startActivity(new Intent(requireActivity(), PersonalInfoActivity.class).putExtra("uData", teacherDataModelData));
             }
         });
         btnChangePassword.setOnClickListener(new View.OnClickListener() {

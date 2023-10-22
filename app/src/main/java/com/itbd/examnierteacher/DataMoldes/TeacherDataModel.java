@@ -2,14 +2,14 @@ package com.itbd.examnierteacher.DataMoldes;
 
 import java.io.Serializable;
 
-public class SignUpInfoModel implements Serializable {
+public class TeacherDataModel implements Serializable {
     private  String fullName, email, phone, course, uId;
 
-    public SignUpInfoModel() {
+    public TeacherDataModel() {
         // Default Empty Constructor
     }
 
-    public SignUpInfoModel(String fullName, String email, String phone, String course, String uId) {
+    public TeacherDataModel(String fullName, String email, String phone, String course, String uId) {
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;

@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.itbd.examnierteacher.DataMoldes.SignUpInfoModel;
+import com.itbd.examnierteacher.DataMoldes.TeacherDataModel;
 import com.itbd.examnierteacher.Fragments.DashFragment;
 import com.itbd.examnierteacher.Fragments.ProfileFragment;
 import com.itbd.examnierteacher.Fragments.ResourceFragment;
@@ -32,7 +32,7 @@ import java.util.Objects;
 public class DashboardActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNav;
-    SignUpInfoModel signUpInfoModelData;
+    TeacherDataModel teacherDataModelData;
     String uID, uName, uCourse;
     DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
 
@@ -42,6 +42,8 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(DashboardActivity.this, R.color.blue_pr));
 
         loadingDialog = new Dialog(DashboardActivity.this);
 
@@ -53,7 +55,6 @@ public class DashboardActivity extends AppCompatActivity {
         uID = getIntent().getStringExtra("uID");
 
         bottomNav = findViewById(R.id.botton_navigationbar);
-        getWindow().setStatusBarColor(ContextCompat.getColor(DashboardActivity.this,R.color.blue_pr));
 
         loadUserData();
 
@@ -62,10 +63,10 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                if(item.getItemId() == R.id.profile){
-                    loadFrag(ProfileFragment.getInstance(signUpInfoModelData), 1);
+                if (item.getItemId() == R.id.profile) {
+                    loadFrag(ProfileFragment.getInstance(teacherDataModelData), 1);
                 } else if (item.getItemId() == R.id.dashboard) {
-                    loadFrag(DashFragment.getInstance(signUpInfoModelData), 1);
+                    loadFrag(DashFragment.getInstance(teacherDataModelData), 1);
                 } else if (item.getItemId() == R.id.result) {
                     loadFrag(new ResultFragment(), 1);
                 } else if (item.getItemId() == R.id.resource) {
@@ -76,37 +77,38 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
     }
-    public void loadFrag(Fragment fragment, int flag){
+
+    public void loadFrag(Fragment fragment, int flag) {
 
         FragmentManager fragManager = getSupportFragmentManager();
         FragmentTransaction fragTrans = fragManager.beginTransaction();
 
-        if (flag == 0){
+        if (flag == 0) {
             fragTrans.add(R.id.frame_Layout, fragment);
-        }else{
+        } else {
             fragTrans.replace(R.id.frame_Layout, fragment);
         }
 
         fragTrans.commit();
     }
 
-    public void loadUserData(){
+    public void loadUserData() {
         mReference.child("Teacher").child(uID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                signUpInfoModelData = snapshot.getValue(SignUpInfoModel.class);
+                teacherDataModelData = snapshot.getValue(TeacherDataModel.class);
 
-                assert signUpInfoModelData != null;
-                uName = signUpInfoModelData.getFullName();
-                uCourse = signUpInfoModelData.getCourse();
+                assert teacherDataModelData != null;
+                uName = teacherDataModelData.getFullName();
+                uCourse = teacherDataModelData.getCourse();
 
-                loadFrag(DashFragment.getInstance(signUpInfoModelData), 0);
+                loadFrag(DashFragment.getInstance(teacherDataModelData), 0);
                 loadingDialog.dismiss();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DashboardActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashboardActivity.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

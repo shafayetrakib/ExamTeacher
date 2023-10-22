@@ -1,6 +1,7 @@
 package com.itbd.examnierteacher;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,133 +24,166 @@ import java.util.List;
 
 public class QuestionSetActivity extends AppCompatActivity {
 
-    EditText questionNumber, writeQuestion, optionOne, optionTwo, optionThree, optionFour;
-    Button add, submit;
-    DatabaseReference databaseReference;
-    RadioButton chOne, chTwo, chThree, chFour;
-    TextView correctAnswer;
+    TextView txtQuestionNo, txtExamTotalMarks, txtQuestionTotalMarks;
+    AppCompatButton btnAddQuestion, btnSaveQuestion;
+    EditText edtQuestion,
+            edtOptionOne, edtOptionTwo, edtOptionThree, edtOptionFour;
+    RadioGroup radioAnsGrp, radioMarkGrp;
+
+    RadioButton checkOne, checkTwo, checkThree, checkFour,
+                markOne, markTwo, markThree;
+
+    String question, optionOne, optionTwo, optionThree, optionFour, correctAns;
+    int questionMark, totalQuestionMark, totalExamMark = 30, questionNo = 1;
+
     List<QuestionModel> questionModelList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-
-        questionNumber = findViewById(R.id.question_number);
-        writeQuestion = findViewById(R.id.edt_writequestion);
-        optionOne = findViewById(R.id.edt_optionone);
-        optionTwo = findViewById(R.id.edt_optiontwo);
-        optionThree = findViewById(R.id.edt_optionthree);
-        optionFour = findViewById(R.id.edt_optionfour);
-        add = findViewById(R.id.btn_questionadd);
-        submit = findViewById(R.id.btn_submitquestion);
-
         getWindow().setStatusBarColor(ContextCompat.getColor(QuestionSetActivity.this, R.color.blue_pr));
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        txtQuestionNo = findViewById(R.id.txt_question_no);
+        txtExamTotalMarks = findViewById(R.id.txt_exam_total_marks);
+        txtQuestionTotalMarks = findViewById(R.id.txt_question_total_marks);
 
-        //For Current Answer checkbox
-        chOne = findViewById(R.id.checkbox_one);
-        chTwo = findViewById(R.id.checkbox_two);
-        chThree = findViewById(R.id.checkbox_three);
-        chFour = findViewById(R.id.checkbox_four);
+        edtQuestion = findViewById(R.id.edt_question);
+        edtOptionOne = findViewById(R.id.edt_option_one);
+        edtOptionTwo = findViewById(R.id.edt_option_two);
+        edtOptionThree = findViewById(R.id.edt_option_three);
+        edtOptionFour = findViewById(R.id.edt_option_four);
+
+        radioAnsGrp = findViewById(R.id.radio_ans_grp);
+        radioMarkGrp = findViewById(R.id.radio_mark_grp);
+
+        checkOne = findViewById(R.id.checkbox_one);
+        checkTwo = findViewById(R.id.checkbox_two);
+        checkThree = findViewById(R.id.checkbox_three);
+        checkFour = findViewById(R.id.checkbox_four);
+
+        markOne = findViewById(R.id.q_mark_one);
+        markTwo = findViewById(R.id.q_mark_two);
+        markThree = findViewById(R.id.q_mark_three);
+
+        btnAddQuestion = findViewById(R.id.btn_add_question);
+        btnSaveQuestion = findViewById(R.id.btn_save_question);
 
 
-        // for add question
-        add.setOnClickListener(new View.OnClickListener() {
+        btnAddQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                questionSet();
+                addQuestion();
             }
         });
 
-        //for submit question
-        submit.setOnClickListener(new View.OnClickListener() {
+        btnSaveQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                startActivity(new Intent(QuestionSetActivity.this, DashboardActivity.class));
-                finish();
+                saveQuestion();
             }
         });
 
     }
 
-    public void questionSet() {
-
-        String WriteQuestion = writeQuestion.getText().toString().trim();
-        String OptionOne = optionOne.getText().toString().trim();
-        String OptionTwo = optionTwo.getText().toString().trim();
-        String OptionThree = optionThree.getText().toString().trim();
-        String OptionFour = optionFour.getText().toString().trim();
-        String checkOne = chOne.getText().toString();
-        String checkTwo = chTwo.getText().toString();
-        String checkThree = chThree.getText().toString();
-        String checkFour = chFour.getText().toString();
-        String Correct = correctAnswer.getText().toString();
-
-        getWindow().setStatusBarColor(ContextCompat.getColor(QuestionSetActivity.this, R.color.blue_pr));
-
-        // for checkbox
-
-        if (chOne.isChecked()) {
-            optionOne.getText().toString();
-            correctAnswer.setText(OptionOne);
-        }
-        if (chTwo.isChecked()) {
-            optionTwo.getText().toString().trim();
-            correctAnswer.setText(OptionTwo);
-        }
-        if (chThree.isChecked()) {
-            optionThree.getText().toString().trim();
-            correctAnswer.setText(OptionThree);
-
-        }
-        if (chFour.isChecked()) {
-            optionFour.getText().toString().trim();
-            correctAnswer.setText(OptionFour);
-        }
-
-//end checkbox
-        if (TextUtils.isEmpty(WriteQuestion)) {
-            writeQuestion.setError("please write the question");
-            writeQuestion.requestFocus();
+    private void saveQuestion() {
+        if (totalExamMark > totalQuestionMark || totalExamMark == totalQuestionMark){
+            Toast.makeText(QuestionSetActivity.this, "Please Add More Question", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (TextUtils.isEmpty(OptionOne)) {
-            optionOne.setError("don't set option one");
-            optionOne.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(OptionTwo)) {
-            optionTwo.setError("don't set option two");
-            optionTwo.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(OptionThree)) {
-            optionThree.setError("don't set option three");
-            optionThree.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(OptionFour)) {
-            optionFour.setError("don't set option four");
-            optionFour.requestFocus();
-            return;
-        }
-
-        questionModelList.add(new QuestionModel());
-
-        writeQuestion.setText("");
-        optionOne.setText("");
-        optionTwo.setText("");
-        optionThree.setText("");
-        optionFour.setText("");
-
-
-
-        Toast.makeText(this, "question succefully set", Toast.LENGTH_SHORT).show();
     }
 
+    private void addQuestion() {
+        question = edtQuestion.getText().toString().trim();
 
+        optionOne = edtOptionOne.getText().toString().trim();
+        optionTwo = edtOptionTwo.getText().toString().trim();
+        optionThree = edtOptionThree.getText().toString().trim();
+        optionFour = edtOptionFour.getText().toString().trim();
+
+        int radioMarkId = radioMarkGrp.getCheckedRadioButtonId();
+
+        boolean isCheckedOne = checkOne.isChecked();
+        boolean isCheckedTwo = checkTwo.isChecked();
+        boolean isCheckedThree = checkThree.isChecked();
+        boolean isCheckedFour = checkFour.isChecked();
+
+        if (question.isEmpty()){
+            edtValidator(edtQuestion, "Please, Enter question.");
+            return;
+        }
+        if (optionOne.isEmpty()){
+            edtValidator(edtOptionOne, "Option Can't be Empty");
+            return;
+        }
+        if (optionTwo.isEmpty()){
+            edtValidator(edtOptionTwo, "Option Can't be Empty");
+            return;
+        }
+        if (optionThree.isEmpty()){
+            edtValidator(edtOptionThree, "Option Can't be Empty");
+            return;
+        }
+        if (optionFour.isEmpty()){
+            edtValidator(edtOptionFour, "Option Can't be Empty");
+            return;
+        }
+
+        if (!isCheckedOne && !isCheckedTwo && !isCheckedThree && !isCheckedFour){
+            Toast.makeText(QuestionSetActivity.this, "Select Correct Option", Toast.LENGTH_SHORT).show();
+            radioAnsGrp.requestFocus();
+            return;
+        } else {
+            int radioAnsID = radioAnsGrp.getCheckedRadioButtonId();
+
+            if (radioAnsID == R.id.checkbox_one){
+                correctAns = optionOne;
+            } else if (radioAnsID == R.id.checkbox_two) {
+                correctAns = optionTwo;
+            } else if (radioAnsID == R.id.checkbox_three) {
+                correctAns = optionThree;
+            } else if (radioAnsID == R.id.checkbox_four) {
+                correctAns = optionFour;
+            }
+        }
+
+        if (radioMarkId == R.id.q_mark_one){
+            questionMark = Integer.parseInt(markOne.getText().toString());
+        } else if (radioMarkId == R.id.q_mark_two) {
+            questionMark = Integer.parseInt(markTwo.getText().toString());
+        } else if (radioMarkId == R.id.q_mark_three) {
+            questionMark = Integer.parseInt(markThree.getText().toString());
+        }
+
+        questionModelList.add(new QuestionModel(question, optionOne, optionTwo,
+                optionThree, optionFour, correctAns, questionMark));
+
+        totalQuestionMark += questionMark;
+        if (totalQuestionMark < 10){
+            txtQuestionTotalMarks.setText("0" + totalQuestionMark);
+        } else {
+            txtQuestionTotalMarks.setText(totalQuestionMark);
+        }
+
+        questionNo++;
+        if (questionNo < 10){
+            txtQuestionNo.setText("Question No : 0" + questionNo);
+        } else {
+            txtQuestionNo.setText("Question No : " + questionNo);
+        }
+
+        edtQuestion.setText("");
+        edtOptionOne.setText("");
+        edtOptionTwo.setText("");
+        edtOptionThree.setText("");
+        edtOptionFour.setText("");
+
+        radioAnsGrp.clearCheck();
+        markOne.setChecked(true);
+    }
+
+    private void edtValidator(EditText editText, String message){
+        editText.setError(message);
+        editText.requestFocus();
+    }
 }

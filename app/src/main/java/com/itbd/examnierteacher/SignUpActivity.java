@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.itbd.examnierteacher.DataMoldes.SignUpInfoModel;
+import com.itbd.examnierteacher.DataMoldes.TeacherDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +47,10 @@ import java.util.Objects;
 import java.util.Random;
 
 public class SignUpActivity extends AppCompatActivity {
-   EditText fullName,email,phone,autoPassword;
-    TextView backTwo,signintext;
-    Spinner courseName;
+    EditText fullName, email, phone, autoPassword;
+    TextView backTwo, signInText;
     Button signUp;
-    ImageView visiablitySignup;
+    ImageView visibilitySignUp;
     ProgressBar progressBar;
 
     DatabaseReference databaseReference;
@@ -67,9 +65,10 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        getWindow().setStatusBarColor(ContextCompat.getColor(SignUpActivity.this,R.color.blue_pr));
+        getWindow().setStatusBarColor(ContextCompat.getColor(SignUpActivity.this, R.color.blue_pr));
 
-        databaseReference= FirebaseDatabase.getInstance().getReference("Teacher");
+        mReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Teacher");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -78,23 +77,23 @@ public class SignUpActivity extends AppCompatActivity {
         phone = findViewById(R.id.edt_phone);
         signUp = findViewById(R.id.btn_Signup);
         backTwo = findViewById(R.id.backtwo);
-        signintext=findViewById(R.id.signintext);
-        autoPassword=findViewById(R.id.auto_password);
-        visiablitySignup=findViewById(R.id.pass_invisi);
+        signInText = findViewById(R.id.signintext);
+        autoPassword = findViewById(R.id.auto_password);
+        visibilitySignUp = findViewById(R.id.pass_invisi);
 
-        //For auto Genarate Password
+        //For auto Generated Password
         autoPassword.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View view) {
-             autoPassword.setText(randompass(8));
-         }
-    });
-
-        //go to signin activity
-        signintext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+                autoPassword.setText(randomPass(8));
+            }
+        });
+
+        //go to Sign In activity
+        signInText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
@@ -102,14 +101,10 @@ public class SignUpActivity extends AppCompatActivity {
         backTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SignUpActivity.this, startpage.class));
+                onBackPressed();
             }
         });
 
-        //Spinner Course select
-//        courseName = findViewById(R.id.select);
-
-        mReference = FirebaseDatabase.getInstance().getReference();
         loadCourseList();
 
         // Making The Dialog
@@ -144,21 +139,16 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-//        courseSelect =getResources().getStringArray(R.array.course);
-//        ArrayAdapter coursename= new ArrayAdapter<String>(Signup.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,courseSelect);
-//        courseName.setAdapter(coursename);
-
-
         //Hide or show password
-        visiablitySignup.setOnClickListener(new View.OnClickListener() {
+        visibilitySignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(autoPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                if (autoPassword.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
                     autoPassword.setTransformationMethod(new PasswordTransformationMethod());
-                    visiablitySignup.setImageResource(R.drawable.invisi_eye);
-                }else {
+                    visibilitySignUp.setImageResource(R.drawable.invisi_eye);
+                } else {
                     autoPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    visiablitySignup.setImageResource(R.drawable.visi_eye);
+                    visibilitySignUp.setImageResource(R.drawable.visi_eye);
                 }
             }
         });
@@ -168,36 +158,34 @@ public class SignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String FullName=fullName.getText().toString();
-                String Phone=phone.getText().toString();
-                String em=email.getText().toString().trim();
-                String password=autoPassword.getText().toString().trim();
+                String FullName = fullName.getText().toString();
+                String Phone = phone.getText().toString();
+                String em = email.getText().toString().trim();
+                String password = autoPassword.getText().toString().trim();
 
-                if(em.isEmpty()){
+                if (em.isEmpty()) {
                     email.setError("Enter a Email Address");
                     email.requestFocus();
                     return;
-                }
-
-                else if(!Patterns.EMAIL_ADDRESS.matcher(em).matches()){
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(em).matches()) {
                     email.setError("Enter a valid Email Address");
                     email.requestFocus();
                     return;
                 }
-                if(FullName.isEmpty()){
+                if (FullName.isEmpty()) {
                     fullName.setError("Enter a FullName");
                     fullName.requestFocus();
                     return;
                 }
-                if(Phone.isEmpty()){
+                if (Phone.isEmpty()) {
                     phone.setError("Enter a Phone Number");
                     phone.requestFocus();
                     return;
                 }
-                mAuth.createUserWithEmailAndPassword(em,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(em, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(SignUpActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
 
@@ -205,11 +193,11 @@ public class SignUpActivity extends AppCompatActivity {
                             String uId = user.getUid();
 
                             saveData(uId);
-                        }else {
-                            if(task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(getApplicationContext(), "User already Registered", Toast.LENGTH_SHORT).show();
-                              }else {
-                                Toast.makeText(getApplicationContext(), "Error:"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Error:" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -218,68 +206,60 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
     }
-    public void saveData(String uId){
-        String FullName= fullName.getText().toString().trim();
-        String Email= email.getText().toString().trim();
-        String Phone= phone.getText().toString().trim();
+
+    public void saveData(String uId) {
+        String FullName = fullName.getText().toString().trim();
+        String Email = email.getText().toString().trim();
+        String Phone = phone.getText().toString().trim();
         String Course = txtSelectCourse.getText().toString().trim();
 
-        if(TextUtils.isEmpty(FullName)){
+        if (TextUtils.isEmpty(FullName)) {
             fullName.setError("Full name is required");
             fullName.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(Email) && !Patterns.EMAIL_ADDRESS.matcher(Email).matches()){
+        if (TextUtils.isEmpty(Email) && !Patterns.EMAIL_ADDRESS.matcher(Email).matches()) {
             email.setError("Email is required");
             email.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(Phone)){
+        if (TextUtils.isEmpty(Phone)) {
             phone.setError("phone is required");
             phone.requestFocus();
             return;
         }
 
-        SignUpInfoModel info= new SignUpInfoModel(FullName, Email, Phone, Course, uId);
-        databaseReference.child(uId).setValue(info);
-
-        Toast.makeText(this, "You are Successfully Registered", Toast.LENGTH_SHORT).show();
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignUpActivity.this);
-        alertDialogBuilder.setTitle("Alert");
-        alertDialogBuilder.setMessage("You've Got an Auto Generated Password");
-        alertDialogBuilder.setIcon(R.drawable.warning);
-        alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        TeacherDataModel info = new TeacherDataModel(FullName, Email, Phone, Course, uId);
+        databaseReference.child(uId).setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(SignUpActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+                finish();
             }
         });
-        AlertDialog alertDialog= alertDialogBuilder.create();
-        alertDialog.show();
 
     }
 
-    public String randompass(int length){
+    public String randomPass(int length) {
 
-    char[] chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz".toCharArray();
-        Random r= new Random();
-        StringBuilder sb= new StringBuilder();
+        char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*".toCharArray();
+        Random r = new Random();
+        StringBuilder sb = new StringBuilder();
 
-
-        for(int i=0;i<length;i++){
-            char c=chars[r.nextInt(chars.length)];
+        for (int i = 0; i < length; i++) {
+            char c = chars[r.nextInt(chars.length)];
             sb.append(c);
         }
         return sb.toString();
     }
-    private void loadCourseList(){
+
+    private void loadCourseList() {
         mReference.child("courseList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 courseListData.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     courseListData.add(dataSnapshot.getValue(String.class));
                 }
                 courseListData.remove("All");
@@ -289,7 +269,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(SignUpActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

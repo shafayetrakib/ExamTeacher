@@ -39,7 +39,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:background="@drawable/buttoneffect"
+        android:background="@drawable/blue_btn_bg"
         android:text="Get Started"
         android:textColor="@color/white"
         android:textSize="18dp"

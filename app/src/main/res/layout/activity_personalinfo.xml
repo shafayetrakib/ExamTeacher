@@ -39,7 +39,7 @@
             android:inputType="text"
             android:hint="Enter your name"
             android:paddingHorizontal="20dp"
-            android:background="@drawable/edittext_boxshape"/>
+            android:background="@drawable/edt_bg_sc"/>
         <EditText
             android:id="@+id/edit_email"
             android:layout_marginTop="15dp"
@@ -47,7 +47,7 @@
             android:layout_height="58dp"
             android:inputType="textEmailAddress"
             android:paddingHorizontal="20dp"
-            android:background="@drawable/edittext_boxshape"
+            android:background="@drawable/edt_bg_sc"
             android:clickable="false"/>
         <EditText
             android:id="@+id/edit_phone"
@@ -57,7 +57,7 @@
             android:inputType="phone"
             android:hint="Enter your phone number"
             android:paddingHorizontal="20dp"
-            android:background="@drawable/edittext_boxshape"/>
+            android:background="@drawable/edt_bg_sc"/>
         <EditText
             android:id="@+id/edit_course"
             android:layout_marginTop="15dp"
@@ -65,7 +65,7 @@
             android:layout_height="58dp"
             android:inputType="text"
             android:paddingHorizontal="20dp"
-            android:background="@drawable/edittext_boxshape"
+            android:background="@drawable/edt_bg_sc"
             android:clickable="false"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:text="Save"
-            android:background="@drawable/buttoneffect"
+            android:background="@drawable/blue_btn_bg"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:textAllCaps="false"/>

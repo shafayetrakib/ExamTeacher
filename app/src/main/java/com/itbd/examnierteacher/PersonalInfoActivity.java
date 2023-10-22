@@ -12,12 +12,12 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.itbd.examnierteacher.DataMoldes.SignUpInfoModel;
+import com.itbd.examnierteacher.DataMoldes.TeacherDataModel;
 
 public class PersonalInfoActivity extends AppCompatActivity {
     EditText fullName, email, phone, course;
     Button saveInfo;
-    SignUpInfoModel signUpInfoModelData;
+    TeacherDataModel teacherDataModelData;
     DatabaseReference mRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(PersonalInfoActivity.this,R.color.blue_pr));
 
-        signUpInfoModelData = (SignUpInfoModel) getIntent().getSerializableExtra("uData");
+        teacherDataModelData = (TeacherDataModel) getIntent().getSerializableExtra("uData");
 
         mRef = FirebaseDatabase.getInstance().getReference();
 
@@ -39,10 +39,10 @@ public class PersonalInfoActivity extends AppCompatActivity {
         email.setEnabled(false);
         course.setEnabled(false);
 
-        fullName.setText(signUpInfoModelData.getFullName());
-        email.setText(signUpInfoModelData.getEmail());
-        phone.setText(signUpInfoModelData.getPhone());
-        course.setText(signUpInfoModelData.getCourse());
+        fullName.setText(teacherDataModelData.getFullName());
+        email.setText(teacherDataModelData.getEmail());
+        phone.setText(teacherDataModelData.getPhone());
+        course.setText(teacherDataModelData.getCourse());
 
         saveInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,8 +69,8 @@ public class PersonalInfoActivity extends AppCompatActivity {
             return;
         }
 
-        mRef.child("Teacher").child(signUpInfoModelData.getuId()).setValue(new SignUpInfoModel(FullName,
-                signUpInfoModelData.getEmail(), Phone, signUpInfoModelData.getCourse(), signUpInfoModelData.getuId()));
+        mRef.child("Teacher").child(teacherDataModelData.getuId()).setValue(new TeacherDataModel(FullName,
+                teacherDataModelData.getEmail(), Phone, teacherDataModelData.getCourse(), teacherDataModelData.getuId()));
 
         Toast.makeText(PersonalInfoActivity.this, "Information Updated Successfully", Toast.LENGTH_SHORT).show();
     }

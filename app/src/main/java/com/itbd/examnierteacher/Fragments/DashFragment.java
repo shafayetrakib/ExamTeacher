@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.itbd.examnierteacher.R;
 import com.itbd.examnierteacher.CustomAdapter;
 import com.itbd.examnierteacher.DataMoldes.ExamDataModel;
-import com.itbd.examnierteacher.DataMoldes.SignUpInfoModel;
+import com.itbd.examnierteacher.DataMoldes.TeacherDataModel;
 import com.itbd.examnierteacher.ExamSetActivity;
 
 import java.util.ArrayList;
@@ -37,13 +37,13 @@ public class DashFragment extends Fragment {
     private List<ExamDataModel> eaxmlist;
     private com.itbd.examnierteacher.CustomAdapter CustomAdapter;
 
-    SignUpInfoModel signUpInfoModelData;
+    TeacherDataModel teacherDataModelData;
 
     public DashFragment() {
 
     }
 
-    public static DashFragment getInstance(SignUpInfoModel userData){
+    public static DashFragment getInstance(TeacherDataModel userData){
         DashFragment dashFragment = new DashFragment();
         Bundle bundle = new Bundle();
 
@@ -59,14 +59,14 @@ public class DashFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_dash, container, false);
 
         if (getArguments() != null){
-            signUpInfoModelData = (SignUpInfoModel) getArguments().getSerializable(U_DATA);
+            teacherDataModelData = (TeacherDataModel) getArguments().getSerializable(U_DATA);
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         loadExamSet();
 
         txtUserName = view.findViewById(R.id.txt_user_name);
-        txtUserName.setText(signUpInfoModelData.getFullName());
+        txtUserName.setText(teacherDataModelData.getFullName());
 
         eaxmlist=new ArrayList<>();
         Collections.reverse(eaxmlist);
@@ -78,7 +78,10 @@ public class DashFragment extends Fragment {
         btnExamCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(requireActivity(), ExamSetActivity.class).putExtra("userCourse", signUpInfoModelData.getCourse()));
+                Intent goExamSet = new Intent(requireActivity(), ExamSetActivity.class);
+                goExamSet.putExtra("isEdit", false);
+                goExamSet.putExtra("userCourse", teacherDataModelData.getCourse());
+                startActivity(goExamSet);
             }
         });
 
@@ -88,7 +91,7 @@ public class DashFragment extends Fragment {
     private void loadExamSet(){
         databaseReference.child("examSet")
                 .orderByChild("course")
-                .equalTo(signUpInfoModelData.getCourse()).addValueEventListener(new ValueEventListener() {
+                .equalTo(teacherDataModelData.getCourse()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 eaxmlist.clear();

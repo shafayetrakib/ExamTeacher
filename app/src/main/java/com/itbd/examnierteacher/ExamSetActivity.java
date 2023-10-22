@@ -28,12 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExamSetActivity extends AppCompatActivity {
-    Button addQuestion, ok;
+    Button addQuestion, btnSave;
     TextView examSetUpDate, examSetUpTime;
     EditText examSetUpName, examSetUpSyllabus, examSetUpMark, examSetUpDuration;
-    DatePickerDialog datePickerDailog;
+    DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
-    DatabaseReference databaseReference;
+    DatabaseReference mReference;
     String userCourse;
     boolean isQuestionAdded = false;
 
@@ -43,19 +43,20 @@ public class ExamSetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_examset);
         getWindow().setStatusBarColor(ContextCompat.getColor(ExamSetActivity.this, R.color.blue_pr));
 
-        userCourse = getIntent().getStringExtra("userCourse");
-        Toast.makeText(ExamSetActivity.this, ""+userCourse, Toast.LENGTH_SHORT).show();
-        ok = findViewById(R.id.btn_examsetupok);
+        mReference = FirebaseDatabase.getInstance().getReference();
+
+        int isEdit = getIntent().getIntExtra("isEdit", -1);
+
+        btnSave = findViewById(R.id.btn_examsetupok);
         addQuestion = findViewById(R.id.btn_addquestion);
-        examSetUpDate = findViewById(R.id.edt_examsetupdate);
-        examSetUpTime = findViewById(R.id.edt_examsetuptime);
+
         examSetUpName = findViewById(R.id.edt_examsetupname);
         examSetUpSyllabus = findViewById(R.id.edt_examsetupsyllabus);
+        examSetUpDate = findViewById(R.id.edt_examsetupdate);
+        examSetUpTime = findViewById(R.id.edt_examsetuptime);
         examSetUpMark = findViewById(R.id.edt_examsetupmark);
         examSetUpDuration = findViewById(R.id.edt_examsetupduration);
 
-
-        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         //for adding questions
         addQuestion.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +78,7 @@ public class ExamSetActivity extends AppCompatActivity {
                 int currentMonth = (datePicker.getMonth());
                 int currentYear = datePicker.getYear();
 
-                datePickerDailog = new DatePickerDialog(ExamSetActivity.this,
+                datePickerDialog = new DatePickerDialog(ExamSetActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @SuppressLint("SetTextI18n")
                             @Override
@@ -86,7 +87,7 @@ public class ExamSetActivity extends AppCompatActivity {
 
                             }
                         }, currentYear, currentMonth, currentDay);
-                datePickerDailog.show();
+                datePickerDialog.show();
             }
         });
 
@@ -96,8 +97,7 @@ public class ExamSetActivity extends AppCompatActivity {
             public void onClick(View view) {
                 TimePicker timepicker = new TimePicker(ExamSetActivity.this);
                 int currentHour = timepicker.getCurrentHour();
-                int currentMinite = timepicker.getCurrentMinute();
-
+                int currentMinute = timepicker.getCurrentMinute();
 
                 timePickerDialog = new TimePickerDialog(ExamSetActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
@@ -110,12 +110,12 @@ public class ExamSetActivity extends AppCompatActivity {
                                 String s = simpleDateFormat.format(time);
                                 examSetUpTime.setText(s);
                             }
-                        }, currentHour, currentMinite, false);
+                        }, currentHour, currentMinute, false);
                 timePickerDialog.show();
             }
         });
 
-        ok.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 examSetUp();
@@ -169,10 +169,10 @@ public class ExamSetActivity extends AppCompatActivity {
         List<QuestionModel> questionModelList = new ArrayList<>();
         List<String> usersList = new ArrayList<>();
 
-        String key = databaseReference.push().getKey();
+        String key = mReference.push().getKey();
 
         assert key != null;
-        databaseReference.child("examSet").child(key).setValue(new ExamDataModel(examName, examSyllabus,
+        mReference.child("examSet").child(key).setValue(new ExamDataModel(examName, examSyllabus,
                 examTime, examDate, totalMarks, duration, userCourse, key, usersList, questionModelList));
 
         Toast.makeText(this, "exam setup successfully done", Toast.LENGTH_SHORT).show();

@@ -22,32 +22,31 @@ import com.itbd.examnierteacher.DataMoldes.ExamDataModel;
 import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter<ExamDataModel> {
-    private Activity janinah;
-    private List<ExamDataModel> eaxmlist;
+    private Activity activity;
+    private List<ExamDataModel> examDataList;
 
-    public CustomAdapter(Activity janinah, List<ExamDataModel> eaxmlist) {
+    public CustomAdapter(Activity activity, List<ExamDataModel> examDataList) {
 
-        super(janinah, R.layout.exam_list_item, eaxmlist);
-        this.janinah = janinah;
-        this.eaxmlist = eaxmlist;
+        super(activity, R.layout.exam_list_item, examDataList);
+        this.activity = activity;
+        this.examDataList = examDataList;
     }
-
 
     @SuppressLint("SetTextI18n")
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInflater = janinah.getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.exam_list_item, parent, false);
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        LayoutInflater layoutInflater = activity.getLayoutInflater();
 
-        ExamDataModel examDataModel = eaxmlist.get(position);
+        View view = layoutInflater.inflate(R.layout.exam_list_item, viewGroup, false);
+
+        ExamDataModel examDataModel = examDataList.get(position);
 
         TextView itemOne = view.findViewById(R.id.item_one);
         TextView itemTwo = view.findViewById(R.id.item_two);
         TextView itemThree = view.findViewById(R.id.item_three);
         TextView itemFour = view.findViewById(R.id.item_four);
         TextView itemFive = view.findViewById(R.id.item_five);
-        TextView itemSix = view.findViewById(R.id.item_six);
 
         ImageButton ExamDelete = view.findViewById(R.id.delete);
         ImageButton ExamEdit = view.findViewById(R.id.edit);
@@ -57,19 +56,19 @@ public class CustomAdapter extends ArrayAdapter<ExamDataModel> {
         itemThree.setText("Time : " + examDataModel.getExamTime());
         itemFour.setText("Mark : " + examDataModel.getTotalMarks());
         itemFive.setText("Duration : " + examDataModel.getDuration() + " Minutes");
-
-
         ExamEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CustomAdapter.this.getContext(), ExamSetActivity.class);
+                intent.putExtra("examData", examDataModel);
+                intent.putExtra("isEdit", 1);
                 getContext().startActivity(intent);
             }
         });
         ExamDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String key = eaxmlist.get(position).getExamId();
+                String key = examDataList.get(position).getExamId();
 
                 FirebaseDatabase.getInstance().getReference("examSet").child(key)
                         .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {

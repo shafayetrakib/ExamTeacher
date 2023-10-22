@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,129 +9,133 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/background_shape">
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_shape"
+        android:padding="20dp">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Exam Setup"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/barlow_semibold"
             android:gravity="center"
-            android:textSize="30sp"
-            android:textStyle="bold"
+            android:text="Exam Setup"
             android:textColor="@color/white"
-            android:layout_marginTop="55dp"/>
+            android:textSize="38sp" />
 
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp"
-        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
-        <EditText
-            android:id="@+id/edt_examsetupname"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Exam Name"
-            android:paddingStart="20dp"
-            android:textColorHint="#716D6D"
-            android:inputType="text"
-            android:background="@drawable/edittext_boxshape"
-            />
-        <EditText
-            android:id="@+id/edt_examsetupsyllabus"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Syllabus"
-            android:paddingStart="20dp"
-            android:textColorHint="#716D6D"
-            android:inputType="text"
-            android:background="@drawable/edittext_boxshape"
-            android:layout_marginTop="15dp"
-            />
-        <TextView
-            android:id="@+id/edt_examsetupdate"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Date"
-            android:paddingStart="20dp"
-            android:textColorHint="#716D6D"
-            android:inputType="text"
-            android:textSize="18sp"
-            android:background="@drawable/edittext_boxshape"
-            android:layout_marginTop="15dp"
-            android:gravity="center|left"
-            />
-        <TextView
-            android:id="@+id/edt_examsetuptime"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Time"
-            android:paddingStart="20dp"
-            android:textColorHint="#716D6D"
-            android:inputType="text"
-            android:textSize="18sp"
-            android:defaultFocusHighlightEnabled="true"
-            android:background="@drawable/edittext_boxshape"
-            android:layout_marginTop="15dp"
-            android:gravity="center|left"
-            />
-        <EditText
-            android:id="@+id/edt_examsetupmark"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Marks"
-            android:paddingStart="20dp"
-            android:textColorHint="#716D6D"
-            android:inputType="text"
-            android:background="@drawable/edittext_boxshape"
-            android:layout_marginTop="15dp"
-            />
-        <EditText
-            android:id="@+id/edt_examsetupduration"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Duration"
-            android:paddingStart="20dp"
-            android:textColorHint="#716D6D"
-            android:inputType="number"
-            android:background="@drawable/edittext_boxshape"
-            android:layout_marginTop="15dp"
-            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
-    </LinearLayout>
-    <Button
-        android:id="@+id/btn_addquestion"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Add Question"
-        android:textColor="@color/black_pr"
-        android:textSize="18sp"
-        android:backgroundTint="@color/blue_sc"
-        android:layout_marginTop="30dp"
-        android:gravity="center"/>
+                <EditText
+                    android:id="@+id/edt_examsetupname"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edt_bg_sc"
+                    android:hint="Title"
+                    android:inputType="text"
+                    android:paddingHorizontal="20dp"
+                    android:textColorHint="@color/black_sc" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_examsetupok"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Ok"
-        android:textSize="18sp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/buttoneffect"
-        android:textColor="@color/white"
-        android:textAllCaps="false"/>
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/edt_examsetupsyllabus"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edt_bg_sc"
+                    android:hint="Syllabus"
+                    android:inputType="text"
+                    android:paddingHorizontal="20dp"
+                    android:textColorHint="@color/black_sc" />
+
+                <TextView
+                    android:id="@+id/edt_examsetupdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edt_bg_sc"
+                    android:gravity="center_vertical"
+                    android:hint="Date"
+                    android:paddingHorizontal="20dp"
+                    android:textColorHint="@color/black_sc"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/edt_examsetuptime"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edt_bg_sc"
+                    android:gravity="center_vertical"
+                    android:hint="Time"
+                    android:paddingHorizontal="20dp"
+                    android:textColorHint="@color/black_sc"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/edt_examsetupmark"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edt_bg_sc"
+                    android:hint="Marks"
+                    android:inputType="number"
+                    android:paddingHorizontal="20dp"
+                    android:textColorHint="@color/black_sc" />
+
+                <EditText
+                    android:id="@+id/edt_examsetupduration"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/edt_bg_sc"
+                    android:hint="Duration"
+                    android:inputType="number"
+                    android:paddingHorizontal="20dp"
+                    android:textColorHint="@color/black_sc" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_addquestion"
+                style="@android:style/Widget.Material.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/blue_btn_bg"
+                android:backgroundTint="@color/blue_sc"
+                android:gravity="center"
+                android:text="Add Question"
+                android:textAllCaps="false"
+                android:textColor="@color/black_pr"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_examsetupok"
+                style="@android:style/Widget.Material.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/blue_btn_bg"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
 
     </ScrollView>
 

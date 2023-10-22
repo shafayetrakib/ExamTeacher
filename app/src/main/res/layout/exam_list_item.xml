@@ -58,24 +58,16 @@
             android:textColor="@color/black_pr"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/item_six"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/black_pr"
-            android:textSize="18sp"
-
-            />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/delete"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/list_item_buttonshape"
@@ -85,7 +77,7 @@
             <ImageButton
                 android:id="@+id/edit"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/list_item_buttonshape"
