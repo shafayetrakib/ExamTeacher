@@ -153,7 +153,7 @@ public class SignInActivity extends AppCompatActivity {
                             finish();
 
                         } else {
-                            Toast.makeText(getApplicationContext(), "SignIn Unsuccessful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "SignIn Failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

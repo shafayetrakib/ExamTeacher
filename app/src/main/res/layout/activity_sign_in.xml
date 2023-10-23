@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_shape"
+        android:background="@drawable/blue_pr_bottom_radius_bg"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
         android:paddingBottom="20dp">
@@ -66,7 +66,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/edt_bg_sc"
-                android:drawableStart="@drawable/baseline_email_24"
+                android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/barlow_regular"
                 android:hint="Enter your email"
@@ -88,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/paasswordedit_boxshape"
-                    android:drawableStart="@drawable/baseline_lock_24"
+                    android:drawableStart="@drawable/ic_lock"
                     android:drawablePadding="10dp"
                     android:fontFamily="@font/barlow_regular"
                     android:hint="Enter your password"

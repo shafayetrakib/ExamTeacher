@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_shape"
+            android:background="@drawable/blue_pr_bottom_radius_bg"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -50,20 +50,21 @@
                 android:id="@+id/exam_creatfirst"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@drawable/exambox_shape"
+                android:background="@drawable/black_ripple"
+                android:fontFamily="@font/barlow_semibold"
                 android:gravity="center"
                 android:text="Create Exam"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black_pr"
+                android:textSize="24sp" />
 
             <ListView
-                android:id="@+id/showexam"
+                android:id="@+id/list_exam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:clipToPadding="false"
-                android:divider="@color/white"
-                android:dividerHeight="3dp"
+                android:divider="@color/transparent"
+                android:dividerHeight="10dp"
                 android:paddingBottom="20dp"
                 android:scrollbars="none" />
         </LinearLayout>

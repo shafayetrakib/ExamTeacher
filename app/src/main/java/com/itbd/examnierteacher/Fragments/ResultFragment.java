@@ -94,7 +94,7 @@ public class ResultFragment extends Fragment {
         Objects.requireNonNull(courseSelectDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         courseSelectDialog.getBehavior().setSkipCollapsed(true);
         courseSelectDialog.getBehavior().setState(STATE_EXPANDED);
-        courseSelectDialog.setContentView(R.layout.course_select_dialog);
+        courseSelectDialog.setContentView(R.layout.bottom_dialog_course_select);
 
         progressBar = courseSelectDialog.findViewById(R.id.progress_bar);
         courseList = courseSelectDialog.findViewById(R.id.course_list);
@@ -122,7 +122,7 @@ public class ResultFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
 
                 listView.setAdapter(new ArrayAdapter<>(requireActivity(),
-                        R.layout.course_list_item,
+                        R.layout.list_item_course,
                         R.id.txt_list_item, courseListData));
             }
 
@@ -139,7 +139,7 @@ public class ResultFragment extends Fragment {
         Objects.requireNonNull(examSelectDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         examSelectDialog.getBehavior().setSkipCollapsed(true);
         examSelectDialog.getBehavior().setState(STATE_EXPANDED);
-        examSelectDialog.setContentView(R.layout.course_select_dialog);
+        examSelectDialog.setContentView(R.layout.bottom_dialog_course_select);
 
         TextView courseDialogTitle = examSelectDialog.findViewById(R.id.course_dialog_title);
         progressBar = examSelectDialog.findViewById(R.id.progress_bar);
@@ -180,7 +180,7 @@ public class ResultFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
 
                 listView.setAdapter(new ArrayAdapter<>(requireActivity(),
-                        R.layout.course_list_item,
+                        R.layout.list_item_course,
                         R.id.txt_list_item, examListData));
             }
 
@@ -225,7 +225,7 @@ public class ResultFragment extends Fragment {
                     @Override
                     public View getView(int i, View view, ViewGroup viewGroup) {
                         if (view == null){
-                            view = getLayoutInflater().inflate(R.layout.result_list_item, viewGroup, false);
+                            view = getLayoutInflater().inflate(R.layout.list_item_result, viewGroup, false);
                         }
 
                         TextView stName = view.findViewById(R.id.txt_result_st_name);

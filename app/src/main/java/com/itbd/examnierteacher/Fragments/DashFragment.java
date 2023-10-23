@@ -30,20 +30,19 @@ import java.util.List;
 
 
 public class DashFragment extends Fragment {
-    private static final String U_DATA = "arg1";
-    ListView showExam;
-    TextView txtUserName;
-    DatabaseReference databaseReference;
-    private List<ExamDataModel> eaxmlist;
     private com.itbd.examnierteacher.CustomAdapter CustomAdapter;
-
+    private static final String U_DATA = "arg1";
+    ListView listExam;
+    TextView txtUserName, btnExamCreate;
+    DatabaseReference databaseReference;
+    List<ExamDataModel> examDataList = new ArrayList<>();
     TeacherDataModel teacherDataModelData;
 
     public DashFragment() {
 
     }
 
-    public static DashFragment getInstance(TeacherDataModel userData){
+    public static DashFragment getInstance(TeacherDataModel userData) {
         DashFragment dashFragment = new DashFragment();
         Bundle bundle = new Bundle();
 
@@ -56,30 +55,30 @@ public class DashFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_dash, container, false);
+        View view = inflater.inflate(R.layout.fragment_dash, container, false);
 
-        if (getArguments() != null){
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        if (getArguments() != null) {
             teacherDataModelData = (TeacherDataModel) getArguments().getSerializable(U_DATA);
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         loadExamSet();
 
         txtUserName = view.findViewById(R.id.txt_user_name);
+        listExam = view.findViewById(R.id.list_exam);
+        btnExamCreate = view.findViewById(R.id.exam_creatfirst);
+
         txtUserName.setText(teacherDataModelData.getFullName());
 
-        eaxmlist=new ArrayList<>();
-        Collections.reverse(eaxmlist);
-        CustomAdapter =new CustomAdapter(DashFragment.super.getActivity(),eaxmlist);
+        Collections.reverse(examDataList);
+        CustomAdapter = new CustomAdapter(DashFragment.super.getActivity(), examDataList);
 
-        showExam = view.findViewById(R.id.showexam);
-
-        TextView btnExamCreate= (TextView) view.findViewById(R.id.exam_creatfirst);
         btnExamCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent goExamSet = new Intent(requireActivity(), ExamSetActivity.class);
-                goExamSet.putExtra("isEdit", false);
+                goExamSet.putExtra("identifyIntent", 1);
                 goExamSet.putExtra("userCourse", teacherDataModelData.getCourse());
                 startActivity(goExamSet);
             }
@@ -88,25 +87,25 @@ public class DashFragment extends Fragment {
         return view;
     }
 
-    private void loadExamSet(){
+    private void loadExamSet() {
         databaseReference.child("examSet")
                 .orderByChild("course")
                 .equalTo(teacherDataModelData.getCourse()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                eaxmlist.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    ExamDataModel examDataModel = dataSnapshot.getValue(ExamDataModel.class);
-                    eaxmlist.add(examDataModel);
-                }
-                showExam.setAdapter(CustomAdapter);
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        examDataList.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            ExamDataModel examDataModel = dataSnapshot.getValue(ExamDataModel.class);
+                            examDataList.add(examDataModel);
+                        }
+                        listExam.setAdapter(CustomAdapter);
 
-            }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(requireActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -112,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
         Objects.requireNonNull(courseSelectDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         courseSelectDialog.getBehavior().setSkipCollapsed(true);
         courseSelectDialog.getBehavior().setState(STATE_EXPANDED);
-        courseSelectDialog.setContentView(R.layout.course_select_dialog);
+        courseSelectDialog.setContentView(R.layout.bottom_dialog_course_select);
 
         RelativeLayout courseSelectorLayout = findViewById(R.id.course_selector_layout);
         txtSelectCourse = findViewById(R.id.txt_select_course);
@@ -128,7 +126,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressBar = courseSelectDialog.findViewById(R.id.progress_bar);
         assert courseList != null;
         courseList.setAdapter(new ArrayAdapter<>(SignUpActivity.this,
-                R.layout.course_list_item,
+                R.layout.list_item_course,
                 R.id.txt_list_item, courseListData));
 
         courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

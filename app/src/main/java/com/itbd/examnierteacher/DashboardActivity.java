@@ -48,7 +48,7 @@ public class DashboardActivity extends AppCompatActivity {
         loadingDialog = new Dialog(DashboardActivity.this);
 
         Objects.requireNonNull(loadingDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        loadingDialog.setContentView(R.layout.progressbar_dialog);
+        loadingDialog.setContentView(R.layout.dialog_progressbar);
         loadingDialog.setCancelable(false);
         loadingDialog.show();
 

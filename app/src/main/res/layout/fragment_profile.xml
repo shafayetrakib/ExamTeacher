@@ -73,7 +73,7 @@
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/btn_blue_bg"
-                    android:src="@drawable/baseline_navigate_next_24" />
+                    android:src="@drawable/ic_next" />
             </RelativeLayout>
 
             <View
@@ -102,7 +102,7 @@
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/btn_blue_bg"
-                    android:src="@drawable/baseline_navigate_next_24" />
+                    android:src="@drawable/ic_next" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -113,7 +113,7 @@
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/logout_button"
-            android:src="@drawable/baseline_logout_24" />
+            android:src="@drawable/ic_logout" />
 
     </RelativeLayout>
 </LinearLayout>

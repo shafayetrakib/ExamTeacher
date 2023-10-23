@@ -14,7 +14,7 @@
         android:padding="20dp"
         android:orientation="vertical"
         android:elevation="3dp"
-        android:background="@drawable/background_shape">
+        android:background="@drawable/blue_pr_bottom_radius_bg">
 
         <TextView
             android:layout_width="match_parent"

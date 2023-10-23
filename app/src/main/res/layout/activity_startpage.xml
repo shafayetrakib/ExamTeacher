@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".startpage">
 
     <ImageView
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:src="@drawable/logo"
         android:layout_marginTop="50dp"
-        android:paddingStart="15dp"/>
+        android:paddingStart="15dp"
+        android:src="@drawable/logo" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="260dp"
-        android:src="@drawable/get_start"
-        android:scaleType="fitXY"
+        android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:layout_gravity="center"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/get_start" />
+
     <Button
         android:id="@+id/have_account"
         android:layout_width="370dp"
@@ -31,8 +32,8 @@
         android:backgroundTint="@color/blue_sc"
         android:text="I have an Account"
         android:textColor="@color/black"
-        android:textSize="18dp"
-        />
+        android:textSize="18dp" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/getstart"
         android:layout_width="370dp"
@@ -41,9 +42,8 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/blue_btn_bg"
         android:text="Get Started"
-        android:textColor="@color/white"
-        android:textSize="18dp"
         android:textAllCaps="false"
-        />
+        android:textColor="@color/white"
+        android:textSize="18dp" />
 
 </LinearLayout>

@@ -216,7 +216,7 @@ public class ResourceFragment extends Fragment {
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
                 if (view == null){
-                    view = getLayoutInflater().inflate(R.layout.resource_list_item, viewGroup, false);
+                    view = getLayoutInflater().inflate(R.layout.list_item_resource, viewGroup, false);
                 }
                 ResourceDataModel resourceDataModel = resourceDataModelList.get(i);
 
