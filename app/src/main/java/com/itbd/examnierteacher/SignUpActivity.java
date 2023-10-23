@@ -66,6 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(SignUpActivity.this, R.color.blue_pr));
 
         mReference = FirebaseDatabase.getInstance().getReference();
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Teacher");
 
         mAuth = FirebaseAuth.getInstance();

@@ -26,8 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignInActivity extends AppCompatActivity {
-    private static final String FILE_NAME = "MyFile";
-    public static final String SHEARD_PREFS = "SheadrPrefs";
+    private static final String PREF_NAME = "ExaminerTeacher";
     EditText passwordSignin, emailSignin;
     TextView mainforgot, signuptext;
     ImageView visiablity;
@@ -54,15 +53,17 @@ public class SignInActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(SignInActivity.this, R.color.blue_pr));
 
-        SharedPreferences sharedPreferences = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
-        String LoginEmail = sharedPreferences.getString("mail", "");
-        String LoginPassword = sharedPreferences.getString("signinpassword", "");
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        String LoginEmail = sharedPreferences.getString("userEmail", "");
+        String LoginPassword = sharedPreferences.getString("userPassword", "");
+
         emailSignin.setText(LoginEmail);
         passwordSignin.setText(LoginPassword);
 
         mAuth = FirebaseAuth.getInstance();
 
-        //go to sinup activity
+        //Goto Sign Up Activity
         signuptext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +108,7 @@ public class SignInActivity extends AppCompatActivity {
                 String Mail = emailSignin.getText().toString().trim();
                 String signinpassword = passwordSignin.getText().toString().trim();
                 if (rememberMe.isChecked()) {
-                    StoreDatausingShared(Mail, signinpassword);
+                    StoreDataUsingShared(Mail, signinpassword);
                 }
 
                 //End of remember Me
@@ -136,8 +137,8 @@ public class SignInActivity extends AppCompatActivity {
                     passwordSignin.requestFocus();
                     return;
                 }
-                progressBar.setVisibility(View.VISIBLE);
 
+                progressBar.setVisibility(View.VISIBLE);
 
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -161,10 +162,10 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
-    private void StoreDatausingShared(String mail, String signinpassword) {
-        SharedPreferences.Editor editor = getSharedPreferences(FILE_NAME, MODE_PRIVATE).edit();
-        editor.putString("mail", mail);
-        editor.putString("signinpassword", signinpassword);
+    private void StoreDataUsingShared(String mail, String signinpassword) {
+        SharedPreferences.Editor editor = getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit();
+        editor.putString("userEmail", mail);
+        editor.putString("userPassword", signinpassword);
         editor.apply();
     }
 }

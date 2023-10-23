@@ -1,7 +1,10 @@
 package com.itbd.examnierteacher.Fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,7 +29,7 @@ import com.itbd.examnierteacher.PersonalInfoActivity;
 import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
-
+    private static final String PREF_NAME = "ExaminerTeacher";
     private static final String U_DATA = "arg1";
     TeacherDataModel teacherDataModelData;
 
@@ -79,7 +82,14 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         FirebaseAuth.getInstance().signOut();
+
                         logOutDialog.dismiss();
+
+                        SharedPreferences.Editor editor = requireActivity().getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit();
+                        editor.putString("userEmail", "");
+                        editor.putString("userPassword", "");
+                        editor.apply();
+
                         startActivity(new Intent(requireActivity(), SignInActivity.class));
                         requireActivity().finish();
                     }
