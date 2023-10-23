@@ -165,15 +165,16 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_Signup"
+                style="@android:style/Widget.Material.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="50dp"
                 android:background="@drawable/blue_btn_bg"
+                android:fontFamily="@font/barlow_regular"
                 android:text="Sign up"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                style="@android:style/Widget.Material.Button.Borderless"/>
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -185,6 +186,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/barlow_regular"
                     android:text="Already have an account?"
                     android:textColor="@color/black_sc"
                     android:textSize="16sp" />
@@ -193,6 +195,7 @@
                     android:id="@+id/signintext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/barlow_semibold"
                     android:text=" Sign In"
                     android:textColor="@color/blue_pr"
                     android:textSize="16sp" />

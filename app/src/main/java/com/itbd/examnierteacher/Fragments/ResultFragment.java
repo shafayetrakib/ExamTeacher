@@ -240,7 +240,7 @@ public class ResultFragment extends Fragment {
                         stObtainMarks.setText(newERM.getExamResult());
 
                         boolean isPass;
-                        if (Integer.parseInt(newERM.getExamResult()) >= Integer.parseInt(newERM.getExamTotalMarks()) * 0.5){
+                        if (Integer.parseInt(newERM.getExamResult()) >= Integer.parseInt(newERM.getExamTotalMarks()) * 0.7){
                             isPass = true;
                         } else {
                             isPass = false;

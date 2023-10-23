@@ -1,10 +1,15 @@
 package com.itbd.examnierteacher.Fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +22,8 @@ import com.itbd.examnierteacher.R;
 import com.itbd.examnierteacher.SignInActivity;
 import com.itbd.examnierteacher.DataMoldes.TeacherDataModel;
 import com.itbd.examnierteacher.PersonalInfoActivity;
+
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
@@ -58,8 +65,25 @@ public class ProfileFragment extends Fragment {
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(requireActivity(), SignInActivity.class));
+                Dialog logOutDialog = new Dialog(getActivity());
+                logOutDialog.setContentView(R.layout.dialog_logout);
+                Objects.requireNonNull(logOutDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                logOutDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                logOutDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+                AppCompatButton btnLogOutDialogOk = logOutDialog.findViewById(R.id.btn_logout_dialog_ok);
+
+                logOutDialog.show();
+                btnLogOutDialogOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseAuth.getInstance().signOut();
+                        logOutDialog.dismiss();
+                        startActivity(new Intent(requireActivity(), SignInActivity.class));
+                        requireActivity().finish();
+                    }
+                });
             }
         });
         btnPersonalInfo.setOnClickListener(new View.OnClickListener() {

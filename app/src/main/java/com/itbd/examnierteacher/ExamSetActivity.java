@@ -186,8 +186,6 @@ public class ExamSetActivity extends AppCompatActivity {
                     showQuestionDialog.getBehavior().setSkipCollapsed(true);
                     showQuestionDialog.getBehavior().setState(STATE_EXPANDED);
 
-                    int screenHeight = getResources().getDisplayMetrics().heightPixels;
-
                     showQuestionDialog.setCancelable(false);
                     showQuestionDialog.setCanceledOnTouchOutside(true);
                     showQuestionDialog.setContentView(R.layout.bottom_dialog_show_question);

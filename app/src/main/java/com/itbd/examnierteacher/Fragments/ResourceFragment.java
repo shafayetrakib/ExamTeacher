@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,9 @@ public class ResourceFragment extends Fragment {
 
     String userID, userName, userCourse;
 
+    ProgressBar resProgressBar;
+    ListView resList;
+
     public ResourceFragment() {
         // Required empty public constructor
     }
@@ -69,6 +73,7 @@ public class ResourceFragment extends Fragment {
     }
 
     DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,15 +81,16 @@ public class ResourceFragment extends Fragment {
 
         EditText edtMsg = view.findViewById(R.id.edt_msg);
         ImageView imgBtnMsgSend = view.findViewById(R.id.img_btn_msg_send);
+        resProgressBar = view.findViewById(R.id.res_progress_bar);
 
-        if(getArguments() != null){
+        if (getArguments() != null) {
             userID = getArguments().getString(U_ID);
             userName = getArguments().getString(U_NAME);
             userCourse = getArguments().getString(U_COURSE);
         }
 
-        ListView res_list = view.findViewById(R.id.res_list);
-        loadRes(res_list, userCourse);
+        resList = view.findViewById(R.id.res_list);
+        loadRes(resList, userCourse);
 
         imgBtnMsgSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +100,7 @@ public class ResourceFragment extends Fragment {
                 String date = getPresentDate();
                 String time = getPresentTime();
 
-                if (message.isEmpty()){
+                if (message.isEmpty()) {
                     return;
                 }
 
@@ -110,18 +116,20 @@ public class ResourceFragment extends Fragment {
         return view;
     }
 
-    private String getPresentDate(){
+    private String getPresentDate() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         sDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Dhaka"));
         return sDateFormat.format(new Date());
     }
+
     // Get User's Device Time
-    private String getPresentTime(){
+    private String getPresentTime() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sTimeFormat = new SimpleDateFormat("hh:mm a");
         sTimeFormat.setTimeZone(TimeZone.getTimeZone("Asia/Dhaka"));
         return sTimeFormat.format(new Date());
     }
-    private void loadRes(ListView listView, String specificCourse){
+
+    private void loadRes(ListView listView, String specificCourse) {
         mReference = FirebaseDatabase.getInstance().getReference();
 
         mReference.child("resource")
@@ -131,7 +139,7 @@ public class ResourceFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         allCourseResourceDataModelList.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             ResourceDataModel resourceDataModel = dataSnapshot.getValue(ResourceDataModel.class);
 
                             allCourseResourceDataModelList.add(resourceDataModel);
@@ -141,7 +149,7 @@ public class ResourceFragment extends Fragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -152,7 +160,7 @@ public class ResourceFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         courseResourceDataModelList.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             ResourceDataModel resourceDataModel = dataSnapshot.getValue(ResourceDataModel.class);
 
                             courseResourceDataModelList.add(resourceDataModel);
@@ -162,11 +170,12 @@ public class ResourceFragment extends Fragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-    private void mergeList(ListView listView){
+
+    private void mergeList(ListView listView) {
         resourceDataModelList.clear();
         resourceDataModelList.addAll(courseResourceDataModelList);
         resourceDataModelList.addAll(allCourseResourceDataModelList);
@@ -185,8 +194,8 @@ public class ResourceFragment extends Fragment {
                 LocalTime timeTwo = LocalTime.parse(timeValidation(timeTwoInt[0], timeTwoInt[1]));
 
                 try {
-                    Date dateOne = dateTimeFormat.parse(rDm1.getDate()+" "+timeOne);
-                    Date dateTwo = dateTimeFormat.parse(rDm2.getDate()+" "+timeTwo);
+                    Date dateOne = dateTimeFormat.parse(rDm1.getDate() + " " + timeOne);
+                    Date dateTwo = dateTimeFormat.parse(rDm2.getDate() + " " + timeTwo);
 
                     assert dateOne != null;
                     return dateOne.compareTo(dateTwo);
@@ -195,6 +204,9 @@ public class ResourceFragment extends Fragment {
                 }
             }
         });
+
+        resList.setVisibility(View.VISIBLE);
+        resProgressBar.setVisibility(View.GONE);
 
         BaseAdapter resListAdapter = new BaseAdapter() {
             @Override
@@ -215,7 +227,7 @@ public class ResourceFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
-                if (view == null){
+                if (view == null) {
                     view = getLayoutInflater().inflate(R.layout.list_item_resource, viewGroup, false);
                 }
                 ResourceDataModel resourceDataModel = resourceDataModelList.get(i);
@@ -249,7 +261,7 @@ public class ResourceFragment extends Fragment {
                                 .equalTo(dltMsgKey).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                             dataSnapshot.getRef().removeValue();
                                         }
                                         Toast.makeText(requireActivity(), "Deleted", Toast.LENGTH_SHORT).show();
@@ -257,7 +269,7 @@ public class ResourceFragment extends Fragment {
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
-                                        Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
@@ -269,7 +281,8 @@ public class ResourceFragment extends Fragment {
 
         listView.setAdapter(resListAdapter);
     }
-    private int[] normalToInt(String time){
+
+    private int[] normalToInt(String time) {
         String[] newTime = time.split(" ");
         String[] hrMin = newTime[0].split(":");
 
@@ -277,7 +290,7 @@ public class ResourceFragment extends Fragment {
 
         if (newTime[1].equals("PM") || newTime[1].equals("Pm") || newTime[1].equals("pm")) {
             hr = Integer.parseInt(hrMin[0]);
-            if (hr < 12){
+            if (hr < 12) {
                 hr += 12;
             }
             min = Integer.parseInt(hrMin[1]);
@@ -292,7 +305,8 @@ public class ResourceFragment extends Fragment {
 
         return new int[]{hr, min};
     }
-    private String timeValidation(int hr, int min){
+
+    private String timeValidation(int hr, int min) {
         String newHr = hr < 10 ? "0" + hr : String.valueOf(hr);
         String newMin = min < 10 ? "0" + min : String.valueOf(min);
         return newHr + ":" + newMin;

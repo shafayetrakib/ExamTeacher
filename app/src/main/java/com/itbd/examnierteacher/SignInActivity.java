@@ -157,13 +157,9 @@ public class SignInActivity extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
-
-
     }
-
 
     private void StoreDatausingShared(String mail, String signinpassword) {
         SharedPreferences.Editor editor = getSharedPreferences(FILE_NAME, MODE_PRIVATE).edit();

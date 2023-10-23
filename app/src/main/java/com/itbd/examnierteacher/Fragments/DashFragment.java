@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class DashFragment extends Fragment {
     private com.itbd.examnierteacher.CustomAdapter CustomAdapter;
     private static final String U_DATA = "arg1";
     ListView listExam;
+    ProgressBar dashProgressBar;
     TextView txtUserName, btnExamCreate;
     DatabaseReference databaseReference;
     List<ExamDataModel> examDataList = new ArrayList<>();
@@ -65,6 +67,7 @@ public class DashFragment extends Fragment {
 
         loadExamSet();
 
+        dashProgressBar = view.findViewById(R.id.dash_progress_bar);
         txtUserName = view.findViewById(R.id.txt_user_name);
         listExam = view.findViewById(R.id.list_exam);
         btnExamCreate = view.findViewById(R.id.exam_creatfirst);
@@ -98,6 +101,8 @@ public class DashFragment extends Fragment {
                             ExamDataModel examDataModel = dataSnapshot.getValue(ExamDataModel.class);
                             examDataList.add(examDataModel);
                         }
+                        dashProgressBar.setVisibility(View.GONE);
+                        listExam.setVisibility(View.VISIBLE);
                         listExam.setAdapter(CustomAdapter);
 
                     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ExamnierTeacher</string>
+    <string name="app_name">Examiner Teacher</string>
     <string-array name="course">
         <item>Select Course</item>
         <item>Android</item>

@@ -20,10 +20,10 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        getWindow().setStatusBarColor(ContextCompat.getColor(SplashActivity.this,R.color.blue_pr));
+        getWindow().setStatusBarColor(ContextCompat.getColor(SplashActivity.this, R.color.blue_pr));
 
-        progressBar  = (ProgressBar) findViewById(R.id.progessbar);
-        Thread thread=new Thread(new Runnable() {
+        progressBar = (ProgressBar) findViewById(R.id.progessbar);
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 doWork();
@@ -33,21 +33,22 @@ public class SplashActivity extends AppCompatActivity {
         thread.start();
 
     }
-    public void doWork()  {
-        for(progess=20; progess<=100; progess++){
+
+    public void doWork() {
+        for (progess = 20; progess <= 100; progess++) {
 
             try {
                 Thread.sleep(20);
                 progressBar.setProgress(progess);
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
     }
 
-    public void startWindow(){
-        Intent intent =new Intent(SplashActivity.this, startpage.class);
+    public void startWindow() {
+        Intent intent = new Intent(SplashActivity.this, startpage.class);
         startActivity(intent);
         finish();
     }

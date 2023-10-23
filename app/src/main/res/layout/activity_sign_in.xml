@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:context=".SignInActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,33 +104,37 @@
                     android:src="@drawable/invisi_eye" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingHorizontal="10dp"
                 android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/rememberme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
                     android:button="@null"
-                    android:drawableLeft="@drawable/checkbox"
+                    android:drawableStart="@drawable/checkbox"
                     android:drawablePadding="5dp"
                     android:text="Remember Me"
+                    android:fontFamily="@font/barlow_regular"
                     android:textColor="@color/black_pr"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/password_forgot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
+                    android:layout_alignParentEnd="true"
                     android:text="Forgot Password?"
+                    android:fontFamily="@font/barlow_regular"
                     android:textColor="@color/blue_pr"
                     android:textSize="16sp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -142,6 +145,7 @@
                 android:layout_marginTop="80dp"
                 android:background="@drawable/blue_btn_bg"
                 android:text="Sign in"
+                android:fontFamily="@font/barlow_regular"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -157,6 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Don't have an account?"
+                    android:fontFamily="@font/barlow_regular"
                     android:textSize="16sp" />
 
                 <TextView
@@ -164,6 +169,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" Sign Up"
+                    android:fontFamily="@font/barlow_semibold"
                     android:textColor="@color/blue_pr"
                     android:textSize="16sp" />
 
@@ -174,6 +180,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:indeterminateTint="@color/blue_pr"
                 android:visibility="gone" />
 
         </LinearLayout>

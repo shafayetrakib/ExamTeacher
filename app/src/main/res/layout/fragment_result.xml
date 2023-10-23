@@ -125,7 +125,8 @@
 
         <ProgressBar
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:indeterminateTint="@color/blue_pr"/>
     </LinearLayout>
 
     <ListView
