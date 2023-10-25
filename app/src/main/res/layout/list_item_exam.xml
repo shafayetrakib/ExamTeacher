@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,7 +10,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/exam_box_shape"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+        tools:ignore="UselessParent">
 
         <TextView
             android:id="@+id/item_one"
@@ -75,7 +77,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/list_item_btn_bg"
                 android:contentDescription="Delete"
-                android:src="@drawable/ic_delete_white" />
+                android:src="@drawable/ic_delete_white"
+                tools:ignore="HardcodedText" />
 
             <ImageButton
                 android:id="@+id/edit"
@@ -85,7 +88,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/list_item_btn_bg"
                 android:contentDescription="Edit"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/ic_edit"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
     </LinearLayout>
