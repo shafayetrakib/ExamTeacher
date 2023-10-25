@@ -55,7 +55,6 @@ public class ExamSetActivity extends AppCompatActivity {
     DatabaseReference mReference;
     String userCourse, examName, examSyllabus, examTime, totalMarks, examDate, duration;
     boolean isQuestionAdded = false, isDataValidate = false;
-
     List<QuestionModel> questionModelList = new ArrayList<>();
     ExamDataModel examDataModel;
     BaseAdapter listShowQuestionAdapter;
@@ -438,9 +437,9 @@ public class ExamSetActivity extends AppCompatActivity {
                         correctAns,
                         questionMark);
 
-                QuestionModel lastQuestion = questionModelList.get(questionModelList.size()-1);
+                QuestionModel lastQuestion = questionModelList.get(questionModelList.size() - 1);
 
-                for (int i = 0; i < questionModelList.size(); i++){
+                for (int i = 0; i < questionModelList.size(); i++) {
                     QuestionModel newQuestionModel = questionModelList.get(i);
                     questionModelList.set(i, questionModel);
                     questionModel = newQuestionModel;
