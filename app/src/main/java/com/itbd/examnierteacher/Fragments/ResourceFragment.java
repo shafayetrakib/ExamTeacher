@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -224,12 +225,11 @@ public class ResourceFragment extends Fragment {
                 return 0;
             }
 
-            @SuppressLint("SetTextI18n")
+            @SuppressLint({"SetTextI18n", "ViewHolder"})
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
-                if (view == null) {
-                    view = getLayoutInflater().inflate(R.layout.list_item_resource, viewGroup, false);
-                }
+                view = getLayoutInflater().inflate(R.layout.list_item_resource, viewGroup, false);
+
                 ResourceDataModel resourceDataModel = resourceDataModelList.get(i);
 
                 TextView txtShowMsgDate = view.findViewById(R.id.txt_show_msg_date);
@@ -245,6 +245,7 @@ public class ResourceFragment extends Fragment {
                 txtShowAdminName.setText("by " + resourceDataModel.getUser());
 
                 ImageView imgBtnMsgDlt = view.findViewById(R.id.img_btn_msg_dlt);
+
                 resItemParent.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {

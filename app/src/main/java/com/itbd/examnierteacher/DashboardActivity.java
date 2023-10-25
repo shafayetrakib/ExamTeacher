@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,11 +31,12 @@ import com.itbd.examnierteacher.Fragments.ResultFragment;
 import java.util.Objects;
 
 public class DashboardActivity extends AppCompatActivity {
-
+    private static final String PREF_NAME = "ExaminerTeacher";
     BottomNavigationView bottomNav;
     TeacherDataModel teacherDataModelData;
     String uID, uName, uCourse;
     DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
+    SharedPreferences sharedPreferences;
 
     Dialog loadingDialog;
 
@@ -52,7 +54,9 @@ public class DashboardActivity extends AppCompatActivity {
         loadingDialog.setCancelable(false);
         loadingDialog.show();
 
-        uID = getIntent().getStringExtra("uID");
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        uID = sharedPreferences.getString("uID", "");
 
         bottomNav = findViewById(R.id.botton_navigationbar);
 

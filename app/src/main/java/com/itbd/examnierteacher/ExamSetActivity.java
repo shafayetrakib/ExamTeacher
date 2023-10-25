@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -221,6 +223,8 @@ public class ExamSetActivity extends AppCompatActivity {
                             TextView txtQuestionOptionFour = view.findViewById(R.id.txt_question_option_four);
                             TextView txtQuestionOptionCorrect = view.findViewById(R.id.txt_question_option_correct);
 
+                            ImageView imgBtnEditQuestion = view.findViewById(R.id.img_btn_edit_question);
+
                             QuestionModel questionModel = questionModelList.get(i);
 
                             txtQuestionTitle.setText(questionModel.getQuestion());
@@ -230,6 +234,15 @@ public class ExamSetActivity extends AppCompatActivity {
                             txtQuestionOptionThree.setText(questionModel.getOptionThree());
                             txtQuestionOptionFour.setText(questionModel.getOptionFour());
                             txtQuestionOptionCorrect.setText(questionModel.getCorrectOption());
+
+                            imgBtnEditQuestion.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Dialog loadDialog = new Dialog(ExamSetActivity.this);
+                                    loadDialog.setContentView(R.layout.dialog_logout);
+                                    loadDialog.show();
+                                }
+                            });
 
                             return view;
                         }

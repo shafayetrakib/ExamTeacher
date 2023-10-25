@@ -29,12 +29,14 @@ public class SignInActivity extends AppCompatActivity {
     private static final String PREF_NAME = "ExaminerTeacher";
     EditText passwordSignin, emailSignin;
     TextView mainforgot, signuptext;
-    ImageView visiablity;
+    ImageView visibility;
     Button signin;
     TextView backOne;
     private FirebaseAuth mAuth;
     CheckBox rememberMe;
     ProgressBar progressBar;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class SignInActivity extends AppCompatActivity {
 
         emailSignin = findViewById(R.id.email_signin);
         passwordSignin = findViewById(R.id.passwor_signin);
-        visiablity = findViewById(R.id.pass_invisiable);
+        visibility = findViewById(R.id.pass_invisiable);
         signin = findViewById(R.id.btn_Signin);
         mainforgot = findViewById(R.id.password_forgot);
         backOne = findViewById(R.id.backone);
@@ -53,13 +55,8 @@ public class SignInActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(SignInActivity.this, R.color.blue_pr));
 
-        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-
-        String LoginEmail = sharedPreferences.getString("userEmail", "");
-        String LoginPassword = sharedPreferences.getString("userPassword", "");
-
-        emailSignin.setText(LoginEmail);
-        passwordSignin.setText(LoginPassword);
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -88,15 +85,15 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
         //Hide or show password
-        visiablity.setOnClickListener(new View.OnClickListener() {
+        visibility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (passwordSignin.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())) {
                     passwordSignin.setTransformationMethod(new PasswordTransformationMethod());
-                    visiablity.setImageResource(R.drawable.invisi_eye);
+                    visibility.setImageResource(R.drawable.invisi_eye);
                 } else {
                     passwordSignin.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    visiablity.setImageResource(R.drawable.visi_eye);
+                    visibility.setImageResource(R.drawable.visi_eye);
                 }
             }
         });
@@ -107,8 +104,9 @@ public class SignInActivity extends AppCompatActivity {
                 //start rememberMe
                 String Mail = emailSignin.getText().toString().trim();
                 String signinpassword = passwordSignin.getText().toString().trim();
+
                 if (rememberMe.isChecked()) {
-                    StoreDataUsingShared(Mail, signinpassword);
+                    editor.putBoolean("userCheck", true);
                 }
 
                 //End of remember Me
@@ -117,7 +115,7 @@ public class SignInActivity extends AppCompatActivity {
                 String password = passwordSignin.getText().toString().trim();
 
                 if (email.isEmpty()) {
-                    emailSignin.setError("Enter a Email Adress");
+                    emailSignin.setError("Enter a Email Address");
                     emailSignin.requestFocus();
                     return;
                 }
@@ -150,7 +148,10 @@ public class SignInActivity extends AppCompatActivity {
                             assert user != null;
                             String uID = user.getUid();
 
-                            startActivity(new Intent(SignInActivity.this, DashboardActivity.class).putExtra("uID", uID));
+                            editor.putString("uID", uID);
+                            editor.apply();
+
+                            startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
                             finish();
 
                         } else {
@@ -160,12 +161,7 @@ public class SignInActivity extends AppCompatActivity {
                 });
             }
         });
-    }
 
-    private void StoreDataUsingShared(String mail, String signinpassword) {
-        SharedPreferences.Editor editor = getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit();
-        editor.putString("userEmail", mail);
-        editor.putString("userPassword", signinpassword);
         editor.apply();
     }
 }

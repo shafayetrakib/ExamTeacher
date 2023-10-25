@@ -86,8 +86,8 @@ public class ProfileFragment extends Fragment {
                         logOutDialog.dismiss();
 
                         SharedPreferences.Editor editor = requireActivity().getSharedPreferences(PREF_NAME, MODE_PRIVATE).edit();
-                        editor.putString("userEmail", "");
-                        editor.putString("userPassword", "");
+                        editor.putBoolean("userCheck", false);
+                        editor.putString("uID", "");
                         editor.apply();
 
                         startActivity(new Intent(requireActivity(), SignInActivity.class));

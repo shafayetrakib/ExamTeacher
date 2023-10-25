@@ -5,13 +5,16 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
+    private static final String PREF_NAME = "ExaminerTeacher";
     ProgressBar progressBar;
-    int progess;
+    int progress;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -35,11 +38,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void doWork() {
-        for (progess = 20; progess <= 100; progess++) {
+        for (progress = 20; progress <= 100; progress++) {
 
             try {
                 Thread.sleep(20);
-                progressBar.setProgress(progess);
+                progressBar.setProgress(progress);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -48,9 +51,17 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void startWindow() {
-        Intent intent = new Intent(SplashActivity.this, startpage.class);
-        startActivity(intent);
-        finish();
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        boolean userCheck = sharedPreferences.getBoolean("userCheck", false);
+
+        if (userCheck){
+            startActivity(new Intent(SplashActivity.this, DashboardActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+            finish();
+        }
     }
 
 }
