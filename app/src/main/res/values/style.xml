@@ -9,6 +9,11 @@
         <item name="android:background">@color/transparent</item>
     </style>
 
+    <style name="custom_date_time_picker_style" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/blue_pr</item>
+        <item name="android:textColorPrimary">@color/black_pr</item>
+    </style>
+
     <style name="edt_txt_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">60dp</item>

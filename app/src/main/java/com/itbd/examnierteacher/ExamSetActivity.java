@@ -131,7 +131,7 @@ public class ExamSetActivity extends AppCompatActivity {
                 int currentMonth = (datePicker.getMonth());
                 int currentYear = datePicker.getYear();
 
-                datePickerDialog = new DatePickerDialog(ExamSetActivity.this,
+                datePickerDialog = new DatePickerDialog(ExamSetActivity.this, R.style.custom_date_time_picker_style,
                         new DatePickerDialog.OnDateSetListener() {
                             @SuppressLint("SetTextI18n")
                             @Override
@@ -152,7 +152,7 @@ public class ExamSetActivity extends AppCompatActivity {
                 int currentHour = timepicker.getCurrentHour();
                 int currentMinute = timepicker.getCurrentMinute();
 
-                timePickerDialog = new TimePickerDialog(ExamSetActivity.this,
+                timePickerDialog = new TimePickerDialog(ExamSetActivity.this, R.style.custom_date_time_picker_style,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hours, int minute) {
