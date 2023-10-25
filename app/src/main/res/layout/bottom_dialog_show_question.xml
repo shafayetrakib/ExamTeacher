@@ -8,15 +8,27 @@
     android:paddingHorizontal="20dp"
     android:paddingTop="20dp">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/barlow_semibold"
-        android:text="All Question"
-        android:textColor="@color/blue_pr"
-        android:textSize="32sp"
-        tools:ignore="HardcodedText" />
+        android:layout_marginTop="10dp"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/barlow_semibold"
+            android:text="All Question"
+            android:textColor="@color/blue_pr"
+            android:textSize="32sp"
+            tools:ignore="HardcodedText" />
+        <ImageView
+            android:id="@+id/img_btn_dialog_add_question"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_add"/>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/list_dialog_show_question"

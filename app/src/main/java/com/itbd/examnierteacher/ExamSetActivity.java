@@ -4,6 +4,7 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
@@ -11,7 +12,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -20,7 +24,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -51,6 +58,7 @@ public class ExamSetActivity extends AppCompatActivity {
 
     List<QuestionModel> questionModelList = new ArrayList<>();
     ExamDataModel examDataModel;
+    BaseAdapter listShowQuestionAdapter;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -192,8 +200,9 @@ public class ExamSetActivity extends AppCompatActivity {
                     showQuestionDialog.setCanceledOnTouchOutside(true);
                     showQuestionDialog.setContentView(R.layout.bottom_dialog_show_question);
 
+                    ImageView imgBtnDialogAddQuestion = showQuestionDialog.findViewById(R.id.img_btn_dialog_add_question);
                     ListView listShowQuestion = showQuestionDialog.findViewById(R.id.list_dialog_show_question);
-                    listShowQuestion.setAdapter(new BaseAdapter() {
+                    listShowQuestionAdapter = new BaseAdapter() {
                         @Override
                         public int getCount() {
                             return questionModelList.size();
@@ -211,7 +220,7 @@ public class ExamSetActivity extends AppCompatActivity {
 
                         @Override
                         public View getView(int i, View view, ViewGroup viewGroup) {
-                            if (view == null){
+                            if (view == null) {
                                 view = getLayoutInflater().inflate(R.layout.list_item_show_question, viewGroup, false);
                             }
 
@@ -227,7 +236,7 @@ public class ExamSetActivity extends AppCompatActivity {
 
                             QuestionModel questionModel = questionModelList.get(i);
 
-                            txtQuestionTitle.setText(questionModel.getQuestion());
+                            txtQuestionTitle.setText((i + 1) + ". " + questionModel.getQuestion());
                             txtQuestionMark.setText(String.valueOf(questionModel.getQuestionMark()));
                             txtQuestionOptionOne.setText(questionModel.getOptionOne());
                             txtQuestionOptionTwo.setText(questionModel.getOptionTwo());
@@ -238,13 +247,20 @@ public class ExamSetActivity extends AppCompatActivity {
                             imgBtnEditQuestion.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Dialog loadDialog = new Dialog(ExamSetActivity.this);
-                                    loadDialog.setContentView(R.layout.dialog_logout);
-                                    loadDialog.show();
+                                    editQuestionDialog(questionModel, i);
                                 }
                             });
 
                             return view;
+                        }
+                    };
+                    assert listShowQuestion != null;
+                    listShowQuestion.setAdapter(listShowQuestionAdapter);
+
+                    imgBtnDialogAddQuestion.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            addQuestionDialog();
                         }
                     });
 
@@ -285,6 +301,11 @@ public class ExamSetActivity extends AppCompatActivity {
                         if (!duration.equals(examDataModel.getDuration())) {
                             examUpdate.child("duration").setValue(duration);
                         }
+                        mReference.child("examSet")
+                                .child(examDataModel.getExamId())
+                                .child("questionModelList")
+                                .setValue(questionModelList);
+
                         Toast.makeText(ExamSetActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }
@@ -292,6 +313,7 @@ public class ExamSetActivity extends AppCompatActivity {
                     String key = mReference.push().getKey();
 
                     examDataModel.setCourse(userCourse);
+
                     examDataModel.setExamId(key);
 
                     assert key != null;
@@ -308,6 +330,248 @@ public class ExamSetActivity extends AppCompatActivity {
         });
 
     }
+
+    @SuppressLint("SetTextI18n")
+    private void addQuestionDialog() {
+        Dialog addQuestionDialog = new Dialog(ExamSetActivity.this);
+        addQuestionDialog.setContentView(R.layout.dialog_question_edit_add);
+
+        Objects.requireNonNull(addQuestionDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        addQuestionDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        addQuestionDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        TextView txtQuestionDialogTitle = addQuestionDialog.findViewById(R.id.txt_question_dialog_title);
+
+        EditText edtDialogQuestion = addQuestionDialog.findViewById(R.id.edt_dialog_question);
+
+        EditText edtDialogOptionOne = addQuestionDialog.findViewById(R.id.edt_dialog_option_one);
+        EditText edtDialogOptionTwo = addQuestionDialog.findViewById(R.id.edt_dialog_option_two);
+        EditText edtDialogOptionThree = addQuestionDialog.findViewById(R.id.edt_dialog_option_three);
+        EditText edtDialogOptionFour = addQuestionDialog.findViewById(R.id.edt_dialog_option_four);
+
+        RadioGroup radioDialogAndGrp = addQuestionDialog.findViewById(R.id.radio_dialog_ans_grp);
+        RadioGroup radioDialogMarkGrp = addQuestionDialog.findViewById(R.id.radio_dialog_mark_grp);
+
+        RadioButton dialogCheckboxOne = addQuestionDialog.findViewById(R.id.dialog_checkbox_one);
+        RadioButton dialogCheckboxTwo = addQuestionDialog.findViewById(R.id.dialog_checkbox_two);
+        RadioButton dialogCheckboxThree = addQuestionDialog.findViewById(R.id.dialog_checkbox_three);
+        RadioButton dialogCheckboxFour = addQuestionDialog.findViewById(R.id.dialog_checkbox_four);
+
+        RadioButton dialogMarkOne = addQuestionDialog.findViewById(R.id.q_dialog_mark_one);
+        RadioButton dialogMarkTwo = addQuestionDialog.findViewById(R.id.q_dialog_mark_two);
+        RadioButton dialogMarkThree = addQuestionDialog.findViewById(R.id.q_dialog_mark_three);
+
+        AppCompatButton btnDialogSaveQuestion = addQuestionDialog.findViewById(R.id.btn_dialog_save_question);
+
+        txtQuestionDialogTitle.setText("Add Question");
+
+        btnDialogSaveQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String correctAns = "";
+                int questionMark = 0;
+
+                String question = edtDialogQuestion.getText().toString().trim();
+                String optionOne = edtDialogOptionOne.getText().toString().trim();
+                String optionTwo = edtDialogOptionTwo.getText().toString().trim();
+                String optionThree = edtDialogOptionThree.getText().toString().trim();
+                String optionFour = edtDialogOptionFour.getText().toString().trim();
+
+                int radioCheckId = radioDialogAndGrp.getCheckedRadioButtonId();
+                int radioMarkId = radioDialogMarkGrp.getCheckedRadioButtonId();
+
+                if (question.isEmpty()) {
+                    edtValidator(edtDialogQuestion, "Please, Enter question.");
+                    return;
+                }
+                if (optionOne.isEmpty()) {
+                    edtValidator(edtDialogOptionOne, "Option Can't be Empty");
+                    return;
+                }
+                if (optionTwo.isEmpty()) {
+                    edtValidator(edtDialogOptionTwo, "Option Can't be Empty");
+                    return;
+                }
+                if (optionThree.isEmpty()) {
+                    edtValidator(edtDialogOptionThree, "Option Can't be Empty");
+                    return;
+                }
+                if (optionFour.isEmpty()) {
+                    edtValidator(edtDialogOptionFour, "Option Can't be Empty");
+                    return;
+                }
+
+                boolean isCheckedOne = dialogCheckboxOne.isChecked();
+                boolean isCheckedTwo = dialogCheckboxTwo.isChecked();
+                boolean isCheckedThree = dialogCheckboxThree.isChecked();
+                boolean isCheckedFour = dialogCheckboxFour.isChecked();
+
+                if (!isCheckedOne && !isCheckedTwo && !isCheckedThree && !isCheckedFour) {
+                    Toast.makeText(ExamSetActivity.this, "Select Correct Option", Toast.LENGTH_SHORT).show();
+                    radioDialogAndGrp.requestFocus();
+                } else {
+                    if (radioCheckId == R.id.dialog_checkbox_one) {
+                        correctAns = optionOne;
+                    } else if (radioCheckId == R.id.dialog_checkbox_two) {
+                        correctAns = optionTwo;
+                    } else if (radioCheckId == R.id.dialog_checkbox_three) {
+                        correctAns = optionThree;
+                    } else if (radioCheckId == R.id.dialog_checkbox_four) {
+                        correctAns = optionFour;
+                    }
+                }
+
+                if (radioMarkId == R.id.q_dialog_mark_one) {
+                    questionMark = Integer.parseInt(dialogMarkOne.getText().toString().trim());
+                } else if (radioMarkId == R.id.q_dialog_mark_two) {
+                    questionMark = Integer.parseInt(dialogMarkTwo.getText().toString().trim());
+                } else if (radioMarkId == R.id.q_dialog_mark_three) {
+                    questionMark = Integer.parseInt(dialogMarkThree.getText().toString().trim());
+                }
+
+                QuestionModel questionModel = new QuestionModel(question,
+                        optionOne,
+                        optionTwo,
+                        optionThree,
+                        optionFour,
+                        correctAns,
+                        questionMark);
+
+                QuestionModel lastQuestion = questionModelList.get(questionModelList.size()-1);
+
+                for (int i = 0; i < questionModelList.size(); i++){
+                    QuestionModel newQuestionModel = questionModelList.get(i);
+                    questionModelList.set(i, questionModel);
+                    questionModel = newQuestionModel;
+                }
+
+                questionModelList.add(lastQuestion);
+
+                listShowQuestionAdapter.notifyDataSetChanged();
+
+                addQuestionDialog.dismiss();
+            }
+        });
+
+        addQuestionDialog.show();
+    }
+
+    private void editQuestionDialog(QuestionModel questionModel, int position) {
+        Dialog editQuestionDialog = new Dialog(ExamSetActivity.this);
+        editQuestionDialog.setContentView(R.layout.dialog_question_edit_add);
+
+        Objects.requireNonNull(editQuestionDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        editQuestionDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        editQuestionDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        TextView txtQuestionDialogTitle = editQuestionDialog.findViewById(R.id.txt_question_dialog_title);
+
+        EditText edtDialogQuestion = editQuestionDialog.findViewById(R.id.edt_dialog_question);
+
+        EditText edtDialogOptionOne = editQuestionDialog.findViewById(R.id.edt_dialog_option_one);
+        EditText edtDialogOptionTwo = editQuestionDialog.findViewById(R.id.edt_dialog_option_two);
+        EditText edtDialogOptionThree = editQuestionDialog.findViewById(R.id.edt_dialog_option_three);
+        EditText edtDialogOptionFour = editQuestionDialog.findViewById(R.id.edt_dialog_option_four);
+
+        RadioGroup radioDialogAndGrp = editQuestionDialog.findViewById(R.id.radio_dialog_ans_grp);
+
+        RadioButton dialogCheckboxOne = editQuestionDialog.findViewById(R.id.dialog_checkbox_one);
+        RadioButton dialogCheckboxTwo = editQuestionDialog.findViewById(R.id.dialog_checkbox_two);
+        RadioButton dialogCheckboxThree = editQuestionDialog.findViewById(R.id.dialog_checkbox_three);
+        RadioButton dialogCheckboxFour = editQuestionDialog.findViewById(R.id.dialog_checkbox_four);
+
+        AppCompatButton btnDialogSaveQuestion = editQuestionDialog.findViewById(R.id.btn_dialog_save_question);
+
+        LinearLayout layoutMarkSetter = editQuestionDialog.findViewById(R.id.layout_mark_setter);
+        layoutMarkSetter.setVisibility(View.GONE);
+
+        txtQuestionDialogTitle.append("" + (position + 1));
+
+        edtDialogQuestion.setText(questionModel.getQuestion());
+
+        edtDialogOptionOne.setText(questionModel.getOptionOne());
+        edtDialogOptionTwo.setText(questionModel.getOptionTwo());
+        edtDialogOptionThree.setText(questionModel.getOptionThree());
+        edtDialogOptionFour.setText(questionModel.getOptionFour());
+
+        String correctOption = questionModel.getCorrectOption();
+
+        if (correctOption.equals(questionModel.getOptionOne())) {
+            dialogCheckboxOne.setChecked(true);
+        } else if (correctOption.equals(questionModel.getOptionTwo())) {
+            dialogCheckboxTwo.setChecked(true);
+        } else if (correctOption.equals(questionModel.getOptionThree())) {
+            dialogCheckboxThree.setChecked(true);
+        } else if (correctOption.equals(questionModel.getOptionFour())) {
+            dialogCheckboxFour.setChecked(true);
+        } else {
+            Toast.makeText(ExamSetActivity.this, "Something Went Wrong, Please try again.", Toast.LENGTH_SHORT).show();
+        }
+
+        editQuestionDialog.show();
+
+        btnDialogSaveQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String correctAns = "";
+
+                String question = edtDialogQuestion.getText().toString().trim();
+                String optionOne = edtDialogOptionOne.getText().toString().trim();
+                String optionTwo = edtDialogOptionTwo.getText().toString().trim();
+                String optionThree = edtDialogOptionThree.getText().toString().trim();
+                String optionFour = edtDialogOptionFour.getText().toString().trim();
+
+                int radioMarkId = radioDialogAndGrp.getCheckedRadioButtonId();
+
+                if (question.isEmpty()) {
+                    edtValidator(edtDialogQuestion, "Please, Enter question.");
+                    return;
+                }
+                if (optionOne.isEmpty()) {
+                    edtValidator(edtDialogOptionOne, "Option Can't be Empty");
+                    return;
+                }
+                if (optionTwo.isEmpty()) {
+                    edtValidator(edtDialogOptionTwo, "Option Can't be Empty");
+                    return;
+                }
+                if (optionThree.isEmpty()) {
+                    edtValidator(edtDialogOptionThree, "Option Can't be Empty");
+                    return;
+                }
+                if (optionFour.isEmpty()) {
+                    edtValidator(edtDialogOptionFour, "Option Can't be Empty");
+                    return;
+                }
+
+                if (radioMarkId == R.id.dialog_checkbox_one) {
+                    correctAns = optionOne;
+                } else if (radioMarkId == R.id.dialog_checkbox_two) {
+                    correctAns = optionTwo;
+                } else if (radioMarkId == R.id.dialog_checkbox_three) {
+                    correctAns = optionThree;
+                } else if (radioMarkId == R.id.dialog_checkbox_four) {
+                    correctAns = optionFour;
+                }
+
+                questionModel.setQuestion(question);
+                questionModel.setOptionOne(optionOne);
+                questionModel.setOptionTwo(optionTwo);
+                questionModel.setOptionThree(optionThree);
+                questionModel.setOptionFour(optionFour);
+                questionModel.setCorrectOption(correctAns);
+
+                questionModelList.set(position, questionModel);
+
+                listShowQuestionAdapter.notifyDataSetChanged();
+
+                editQuestionDialog.dismiss();
+            }
+        });
+    }
+
     // Validating exam data
     public void examDataValidator() {
         examName = examSetUpName.getText().toString().trim();
@@ -345,6 +609,7 @@ public class ExamSetActivity extends AppCompatActivity {
         }
         isDataValidate = true;
     }
+
     // Error setter on EditText
     private void edtValidator(EditText editText, String message) {
         editText.setError(message);

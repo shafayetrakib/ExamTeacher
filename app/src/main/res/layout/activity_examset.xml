@@ -11,17 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/blue_pr_bottom_radius_bg"
+        android:elevation="3dp"
+        android:orientation="vertical"
         android:padding="20dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:fontFamily="@font/barlow_semibold"
-            android:gravity="center"
             android:text="Exam Setup"
             android:textColor="@color/white"
-            android:textSize="38sp" />
+            android:textSize="48sp" />
 
     </LinearLayout>
 
