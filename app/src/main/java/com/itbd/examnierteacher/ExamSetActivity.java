@@ -602,6 +602,10 @@ public class ExamSetActivity extends AppCompatActivity {
             edtValidator(examSetUpMark, "Please, Enter Marks");
             return;
         }
+        if (Integer.parseInt(totalMarks) < 15){
+            edtValidator(examSetUpMark, "Marks can't be smaller that 15");
+            return;
+        }
         if (duration.isEmpty()) {
             edtValidator(examSetUpDuration, "Please, Enter Duration");
             return;
