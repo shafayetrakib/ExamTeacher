@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_radius_top_bg"
+    android:layout_margin="10dp"
+    android:background="@drawable/dialog_bg_white"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -23,8 +24,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:indeterminateTint="@color/blue_pr"
-        android:layout_margin="50dp" />
+        android:layout_margin="50dp"
+        android:indeterminateTint="@color/blue_pr" />
 
     <ListView
         android:id="@+id/course_list"

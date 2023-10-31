@@ -62,13 +62,15 @@ public class ProfileFragment extends Fragment {
         ImageButton btnChangePassword = view.findViewById(R.id.changepassword);
 
         TextView teacherName = view.findViewById(R.id.teacher_name);
+        TextView teacherPosition = view.findViewById(R.id.teacher_position);
 
         teacherName.setText(teacherDataModelData.getFullName());
+        teacherPosition.setText(teacherDataModelData.getPosition());
 
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog logOutDialog = new Dialog(getActivity());
+                Dialog logOutDialog = new Dialog(requireActivity());
                 logOutDialog.setContentView(R.layout.dialog_logout);
                 Objects.requireNonNull(logOutDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 

@@ -6,16 +6,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,6 +44,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.itbd.examnierteacher.DataMoldes.CourseDataModel;
 import com.itbd.examnierteacher.DataMoldes.TeacherDataModel;
 
 import java.util.ArrayList;
@@ -49,15 +57,16 @@ public class SignUpActivity extends AppCompatActivity {
     TextView backTwo, signInText;
     Button signUp;
     ImageView visibilitySignUp;
-    ProgressBar progressBar;
+    ProgressBar progressBar, dialogProgress;
+    ListView courseList;
 
     DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
 
     // Variable for Course List
     private DatabaseReference mReference;
-    List<String> courseListData = new ArrayList<>();
-    TextView txtSelectCourse;
+    List<CourseDataModel> courseListData = new ArrayList<>();
+    TextView txtSelectCourse, txtSelectPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,37 +113,53 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        loadCourseList();
-
-        // Making The Dialog
-        BottomSheetDialog courseSelectDialog = new BottomSheetDialog(this, R.style.bottom_sheet_dialog);
-        Objects.requireNonNull(courseSelectDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        courseSelectDialog.getBehavior().setSkipCollapsed(true);
-        courseSelectDialog.getBehavior().setState(STATE_EXPANDED);
-        courseSelectDialog.setContentView(R.layout.bottom_dialog_course_select);
-
         RelativeLayout courseSelectorLayout = findViewById(R.id.course_selector_layout);
         txtSelectCourse = findViewById(R.id.txt_select_course);
         courseSelectorLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                courseSelectDialog.show();
+                showCourseDialog();
             }
         });
 
-        // Making The List of Course
-        ListView courseList = courseSelectDialog.findViewById(R.id.course_list);
-        progressBar = courseSelectDialog.findViewById(R.id.progress_bar);
-        assert courseList != null;
-        courseList.setAdapter(new ArrayAdapter<>(SignUpActivity.this,
-                R.layout.list_item_course,
-                R.id.txt_list_item, courseListData));
-
-        courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        RelativeLayout positionSelectorLayout = findViewById(R.id.position_selector_layout);
+        txtSelectPosition = findViewById(R.id.txt_select_position);
+        positionSelectorLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                txtSelectCourse.setText(courseListData.get(i));
-                courseSelectDialog.dismiss();
+            public void onClick(View view) {
+                Dialog positionSelectDialog = new Dialog(SignUpActivity.this);
+                positionSelectDialog.setContentView(R.layout.bottom_dialog_course_select);
+                Objects.requireNonNull(positionSelectDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                positionSelectDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                positionSelectDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+                String[] allPositions = {"Senior Teacher", "Assistant Teacher", "Junior Teacher"};
+
+                ProgressBar positionDialogProgressBar = positionSelectDialog.findViewById(R.id.progress_bar);
+                TextView positionDialogTitle = positionSelectDialog.findViewById(R.id.course_dialog_title);
+                positionDialogTitle.setText("Select Your Position");
+
+                ListView positionList = positionSelectDialog.findViewById(R.id.course_list);
+                positionList.setAdapter(new ArrayAdapter<String>(SignUpActivity.this, R.layout.list_item_course, R.id.txt_list_item, allPositions));
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        positionDialogProgressBar.setVisibility(View.GONE);
+                    }
+                }, 100);
+
+                positionSelectDialog.show();
+
+                positionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        txtSelectPosition.setText(allPositions[i]);
+                        positionSelectDialog.dismiss();
+                    }
+                });
+
             }
         });
 
@@ -152,36 +177,54 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-
         //working on Signup Button
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String FullName = fullName.getText().toString();
-                String Phone = phone.getText().toString();
-                String em = email.getText().toString().trim();
+                String FullName = fullName.getText().toString().trim();
+                String Email = email.getText().toString().trim();
+                String Phone = phone.getText().toString().trim();
+                String Position = txtSelectPosition.getText().toString().trim();
+                String Course = txtSelectCourse.getText().toString().trim();
                 String password = autoPassword.getText().toString().trim();
 
-                if (em.isEmpty()) {
-                    email.setError("Enter a Email Address");
-                    email.requestFocus();
-                    return;
-                } else if (!Patterns.EMAIL_ADDRESS.matcher(em).matches()) {
-                    email.setError("Enter a valid Email Address");
-                    email.requestFocus();
-                    return;
-                }
                 if (FullName.isEmpty()) {
-                    fullName.setError("Enter a FullName");
+                    fullName.setError("Please enter your name");
                     fullName.requestFocus();
                     return;
                 }
+                if (Email.isEmpty()) {
+                    email.setError("Please enter your email address");
+                    email.requestFocus();
+                    return;
+                }
+                if (!Email.matches("^[a-zA-z0-9_\\-]*@gmail\\.com$")) {
+                    email.setError("Please enter a valid email address");
+                    email.requestFocus();
+                    return;
+                }
                 if (Phone.isEmpty()) {
-                    phone.setError("Enter a Phone Number");
+                    phone.setError("Please enter your phone number");
                     phone.requestFocus();
                     return;
                 }
-                mAuth.createUserWithEmailAndPassword(em, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                if (Position.isEmpty()) {
+                    txtSelectPosition.setError("Please select your position");
+                    txtSelectPosition.requestFocus();
+                    return;
+                }
+                if (Course.isEmpty()) {
+                    txtSelectCourse.setError("Please select your course");
+                    txtSelectCourse.requestFocus();
+                    return;
+                }
+                if (password.isEmpty()) {
+                    autoPassword.setError("Please enter your password");
+                    autoPassword.requestFocus();
+                    return;
+                }
+
+                mAuth.createUserWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -191,13 +234,12 @@ public class SignUpActivity extends AppCompatActivity {
                             assert user != null;
                             String uId = user.getUid();
 
-                            saveData(uId);
+                            TeacherDataModel teacherDataModel = new TeacherDataModel(FullName, Position, Email, Phone, Course, uId);
+                            saveData(uId, teacherDataModel);
+
                         } else {
-                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                Toast.makeText(getApplicationContext(), "User already Registered", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Error:" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
+                            email.setError("Please enter a different email");
+                            email.requestFocus();
                         }
                     }
                 });
@@ -206,30 +248,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    public void saveData(String uId) {
-        String FullName = fullName.getText().toString().trim();
-        String Email = email.getText().toString().trim();
-        String Phone = phone.getText().toString().trim();
-        String Course = txtSelectCourse.getText().toString().trim();
-
-        if (TextUtils.isEmpty(FullName)) {
-            fullName.setError("Full name is required");
-            fullName.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(Email) && !Patterns.EMAIL_ADDRESS.matcher(Email).matches()) {
-            email.setError("Email is required");
-            email.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(Phone)) {
-            phone.setError("phone is required");
-            phone.requestFocus();
-            return;
-        }
-
-        TeacherDataModel info = new TeacherDataModel(FullName, Email, Phone, Course, uId);
-        databaseReference.child(uId).setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
+    public void saveData(String uId, TeacherDataModel teacherDataModel) {
+        databaseReference.child(uId).setValue(teacherDataModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(SignUpActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
@@ -241,7 +261,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public String randomPass(int length) {
-
         char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*".toCharArray();
         Random r = new Random();
         StringBuilder sb = new StringBuilder();
@@ -253,17 +272,70 @@ public class SignUpActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    private void loadCourseList() {
+    private void showCourseDialog() {
+        Dialog courseSelectDialog = new Dialog(SignUpActivity.this);
+        courseSelectDialog.setContentView(R.layout.bottom_dialog_course_select);
+        Objects.requireNonNull(courseSelectDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        courseSelectDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        courseSelectDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        dialogProgress = courseSelectDialog.findViewById(R.id.progress_bar);
+        courseList = courseSelectDialog.findViewById(R.id.course_list);
+        loadCourseList(courseList);
+
+        courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                txtSelectCourse.setText(courseListData.get(i).getCourseName());
+
+                courseSelectDialog.dismiss();
+            }
+        });
+        courseSelectDialog.show();
+    }
+
+    private void loadCourseList(ListView listView) {
         mReference.child("courseList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 courseListData.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    courseListData.add(dataSnapshot.getValue(String.class));
+                    courseListData.add(dataSnapshot.getValue(CourseDataModel.class));
                 }
-                courseListData.remove("All");
-                progressBar.setVisibility(View.GONE);
+                courseListData.removeIf(CourseDataModel -> CourseDataModel.getCourseName().equals("All"));
+                dialogProgress.setVisibility(View.GONE);
 
+                listView.setAdapter(new BaseAdapter() {
+                    @Override
+                    public int getCount() {
+                        return courseListData.size();
+                    }
+
+                    @Override
+                    public Object getItem(int i) {
+                        return null;
+                    }
+
+                    @Override
+                    public long getItemId(int i) {
+                        return 0;
+                    }
+
+                    @Override
+                    public View getView(int i, View view, ViewGroup viewGroup) {
+                        if (view == null) {
+                            view = getLayoutInflater().inflate(R.layout.list_item_course, viewGroup, false);
+                        }
+                        CourseDataModel courseDataModel = courseListData.get(i);
+
+                        TextView txtListItem = view.findViewById(R.id.txt_list_item);
+
+                        txtListItem.setText(courseDataModel.getCourseName());
+
+                        return view;
+                    }
+                });
             }
 
             @Override

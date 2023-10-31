@@ -3,14 +3,15 @@ package com.itbd.examnierteacher.DataMoldes;
 import java.io.Serializable;
 
 public class TeacherDataModel implements Serializable {
-    private  String fullName, email, phone, course, uId;
+    private String fullName, position, email, phone, course, uId;
 
     public TeacherDataModel() {
         // Default Empty Constructor
     }
 
-    public TeacherDataModel(String fullName, String email, String phone, String course, String uId) {
+    public TeacherDataModel(String fullName, String position, String email, String phone, String course, String uId) {
         this.fullName = fullName;
+        this.position = position;
         this.email = email;
         this.phone = phone;
         this.course = course;
@@ -23,6 +24,14 @@ public class TeacherDataModel implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getEmail() {

@@ -15,31 +15,35 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.itbd.examnierteacher.DataMoldes.TeacherDataModel;
 
 public class PersonalInfoActivity extends AppCompatActivity {
-    EditText fullName, email, phone, course;
+    EditText fullName, email, phone, course, position;
     Button saveInfo;
     TeacherDataModel teacherDataModelData;
     DatabaseReference mRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personalinfo);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(PersonalInfoActivity.this,R.color.blue_pr));
+        getWindow().setStatusBarColor(ContextCompat.getColor(PersonalInfoActivity.this, R.color.blue_pr));
 
         teacherDataModelData = (TeacherDataModel) getIntent().getSerializableExtra("uData");
 
         mRef = FirebaseDatabase.getInstance().getReference();
 
         fullName = findViewById(R.id.edit_fullname);
+        position = findViewById(R.id.edit_position);
         email = findViewById(R.id.edit_email);
         phone = findViewById(R.id.edit_phone);
         course = findViewById(R.id.edit_course);
         saveInfo = findViewById(R.id.btn_saveinfo);
 
+        position.setEnabled(false);
         email.setEnabled(false);
         course.setEnabled(false);
 
         fullName.setText(teacherDataModelData.getFullName());
+        position.setText(teacherDataModelData.getPosition());
         email.setText(teacherDataModelData.getEmail());
         phone.setText(teacherDataModelData.getPhone());
         course.setText(teacherDataModelData.getCourse());
@@ -52,24 +56,25 @@ public class PersonalInfoActivity extends AppCompatActivity {
         });
 
     }
-    public void personalData(){
+
+    public void personalData() {
 
         String FullName = fullName.getText().toString().trim();
         String Phone = phone.getText().toString().trim();
 
-        if(TextUtils.isEmpty(FullName)){
+        if (TextUtils.isEmpty(FullName)) {
             fullName.setError("Please, Enter your name");
             fullName.requestFocus();
             return;
         }
 
-        if(TextUtils.isEmpty(Phone)){
+        if (TextUtils.isEmpty(Phone)) {
             phone.setError("Please, Enter your phone number");
             phone.requestFocus();
             return;
         }
 
-        mRef.child("Teacher").child(teacherDataModelData.getuId()).setValue(new TeacherDataModel(FullName,
+        mRef.child("Teacher").child(teacherDataModelData.getuId()).setValue(new TeacherDataModel(FullName, teacherDataModelData.getPosition(),
                 teacherDataModelData.getEmail(), Phone, teacherDataModelData.getCourse(), teacherDataModelData.getuId()));
 
         Toast.makeText(PersonalInfoActivity.this, "Information Updated Successfully", Toast.LENGTH_SHORT).show();

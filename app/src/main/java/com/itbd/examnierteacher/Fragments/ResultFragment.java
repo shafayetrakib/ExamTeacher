@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.itbd.examnierteacher.DataMoldes.CourseDataModel;
 import com.itbd.examnierteacher.R;
 import com.itbd.examnierteacher.DataMoldes.ExamResultModel;
 
@@ -45,12 +46,14 @@ public class ResultFragment extends Fragment {
     ListView courseList, examList, resultList;
     ProgressBar progressBar;
     DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
-    List<String> courseListData = new ArrayList<>();
+    List<CourseDataModel> courseListData = new ArrayList<>();
     List<String> examListData = new ArrayList<>();
     List<ExamResultModel> examResultModelList = new ArrayList<>();
+
     public ResultFragment() {
         // Required empty public constructor
     }
+
     public static ResultFragment newInstance() {
         ResultFragment fragment = new ResultFragment();
         Bundle args = new Bundle();
@@ -89,6 +92,7 @@ public class ResultFragment extends Fragment {
 
         return view;
     }
+
     private void showCourseDialog() {
         BottomSheetDialog courseSelectDialog = new BottomSheetDialog(requireActivity(), R.style.bottom_sheet_dialog);
         Objects.requireNonNull(courseSelectDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -103,32 +107,60 @@ public class ResultFragment extends Fragment {
         courseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                txtSelectCourse.setText(courseListData.get(i));
+                txtSelectCourse.setText(courseListData.get(i).getCourseName());
 
                 courseSelectDialog.dismiss();
             }
         });
         courseSelectDialog.show();
     }
-    private void loadCourseList(ListView listView){
+
+    private void loadCourseList(ListView listView) {
         mReference.child("courseList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 courseListData.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    courseListData.add(dataSnapshot.getValue(String.class));
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    courseListData.add(dataSnapshot.getValue(CourseDataModel.class));
                 }
                 courseListData.remove("All");
                 progressBar.setVisibility(View.GONE);
 
-                listView.setAdapter(new ArrayAdapter<>(requireActivity(),
-                        R.layout.list_item_course,
-                        R.id.txt_list_item, courseListData));
+                listView.setAdapter(new BaseAdapter() {
+                    @Override
+                    public int getCount() {
+                        return courseListData.size();
+                    }
+
+                    @Override
+                    public Object getItem(int i) {
+                        return null;
+                    }
+
+                    @Override
+                    public long getItemId(int i) {
+                        return 0;
+                    }
+
+                    @Override
+                    public View getView(int i, View view, ViewGroup viewGroup) {
+                        if (view == null) {
+                            view = getLayoutInflater().inflate(R.layout.list_item_course, viewGroup, false);
+                        }
+                        CourseDataModel courseDataModel = courseListData.get(i);
+
+                        TextView txtListItem = view.findViewById(R.id.txt_list_item);
+
+                        txtListItem.setText(courseDataModel.getCourseName());
+
+                        return view;
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -171,7 +203,7 @@ public class ResultFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 examListData.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ExamResultModel examResultModel = dataSnapshot.getValue(ExamResultModel.class);
                     assert examResultModel != null;
                     examListData.add(examResultModel.getExamName());
@@ -186,83 +218,84 @@ public class ResultFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private void loadResult(String examName){
+
+    private void loadResult(String examName) {
         mReference.child("result")
                 .orderByChild("examName")
                 .equalTo(examName)
                 .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                examResultModelList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    ExamResultModel eRm = dataSnapshot.getValue(ExamResultModel.class);
-                    examResultModelList.add(eRm);
-                }
-                progressLayout.setVisibility(View.GONE);
-                resultList.setVisibility(View.VISIBLE);
-                listHeader.setVisibility(View.VISIBLE);
-
-                resultList.setAdapter(new BaseAdapter() {
                     @Override
-                    public int getCount() {
-                        return examResultModelList.size();
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        examResultModelList.clear();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            ExamResultModel eRm = dataSnapshot.getValue(ExamResultModel.class);
+                            examResultModelList.add(eRm);
+                        }
+                        progressLayout.setVisibility(View.GONE);
+                        resultList.setVisibility(View.VISIBLE);
+                        listHeader.setVisibility(View.VISIBLE);
+
+                        resultList.setAdapter(new BaseAdapter() {
+                            @Override
+                            public int getCount() {
+                                return examResultModelList.size();
+                            }
+
+                            @Override
+                            public Object getItem(int i) {
+                                return null;
+                            }
+
+                            @Override
+                            public long getItemId(int i) {
+                                return 0;
+                            }
+
+                            @Override
+                            public View getView(int i, View view, ViewGroup viewGroup) {
+                                if (view == null) {
+                                    view = getLayoutInflater().inflate(R.layout.list_item_result, viewGroup, false);
+                                }
+
+                                TextView stName = view.findViewById(R.id.txt_result_st_name);
+                                TextView stTotalMarks = view.findViewById(R.id.txt_result_total_marks);
+                                TextView stObtainMarks = view.findViewById(R.id.txt_result_obtain_marks);
+                                TextView resultPassFail = view.findViewById(R.id.txt_result_pass_fail);
+
+                                ExamResultModel newERM = examResultModelList.get(i);
+
+                                stName.setText(newERM.getUserName());
+                                stTotalMarks.setText(newERM.getExamTotalMarks());
+                                stObtainMarks.setText(newERM.getExamResult());
+
+                                boolean isPass;
+                                if (Integer.parseInt(newERM.getExamResult()) >= Integer.parseInt(newERM.getExamTotalMarks()) * 0.7) {
+                                    isPass = true;
+                                } else {
+                                    isPass = false;
+                                }
+
+                                if (isPass) {
+                                    resultPassFail.setText("Pass");
+                                } else {
+                                    resultPassFail.setText("Fail");
+                                    resultPassFail.setTextColor(getResources().getColor(R.color.red_pr));
+                                }
+
+                                return view;
+                            }
+                        });
                     }
 
                     @Override
-                    public Object getItem(int i) {
-                        return null;
-                    }
-
-                    @Override
-                    public long getItemId(int i) {
-                        return 0;
-                    }
-
-                    @Override
-                    public View getView(int i, View view, ViewGroup viewGroup) {
-                        if (view == null){
-                            view = getLayoutInflater().inflate(R.layout.list_item_result, viewGroup, false);
-                        }
-
-                        TextView stName = view.findViewById(R.id.txt_result_st_name);
-                        TextView stTotalMarks = view.findViewById(R.id.txt_result_total_marks);
-                        TextView stObtainMarks = view.findViewById(R.id.txt_result_obtain_marks);
-                        TextView resultPassFail = view.findViewById(R.id.txt_result_pass_fail);
-
-                        ExamResultModel newERM = examResultModelList.get(i);
-
-                        stName.setText(newERM.getUserName());
-                        stTotalMarks.setText(newERM.getExamTotalMarks());
-                        stObtainMarks.setText(newERM.getExamResult());
-
-                        boolean isPass;
-                        if (Integer.parseInt(newERM.getExamResult()) >= Integer.parseInt(newERM.getExamTotalMarks()) * 0.7){
-                            isPass = true;
-                        } else {
-                            isPass = false;
-                        }
-
-                        if (isPass){
-                            resultPassFail.setText("Pass");
-                        }else {
-                            resultPassFail.setText("Fail");
-                            resultPassFail.setTextColor(getResources().getColor(R.color.red_pr));
-                        }
-
-                        return view;
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(requireActivity(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(requireActivity(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 }

@@ -14,7 +14,7 @@
         android:background="@drawable/blue_pr_bottom_radius_bg"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="15dp">
 
         <TextView
             android:id="@+id/backtwo"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="←"
             android:textColor="@color/white"
-            android:textSize="40sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
 
         <ImageView
@@ -41,6 +41,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-10dp"
             android:fontFamily="@font/barlow_semibold"
             android:gravity="center"
             android:text="Create\nYour Account"
@@ -51,7 +52,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbarThumbVertical="@color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,6 +102,39 @@
                 android:inputType="phone"
                 android:paddingHorizontal="20dp"
                 android:textColorHint="@color/black_sc" />
+
+            <RelativeLayout
+                android:id="@+id/position_selector_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edt_bg">
+
+                <ImageView
+                    style="@style/edt_icon_style"
+                    android:src="@drawable/ic_teacher_position"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/txt_select_position"
+                    style="@style/edt_txt_style"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="50dp"
+                    android:gravity="center_vertical"
+                    android:hint="Select Your Position"
+                    tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_down_arrow"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/course_selector_layout"
