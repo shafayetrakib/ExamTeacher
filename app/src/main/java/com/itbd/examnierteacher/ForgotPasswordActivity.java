@@ -42,7 +42,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         backThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ForgotPasswordActivity.this, SignInActivity.class));
+                onBackPressed();
             }
         });
 
